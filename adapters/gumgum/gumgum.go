@@ -45,6 +45,26 @@ func (g *GumGumAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapt
 		return nil, errs
 	}
 
+	var (
+		extImp    adapters.ExtImpBidder
+		extBidder openrtb_ext.ExtImpBase
+	)
+
+	if err := json.Unmarshal(request.Imp[0].Ext, &extImp); err != nil {
+		errs = append(errs, err)
+		return nil, errs
+	}
+
+	if err := json.Unmarshal(extImp.Bidder, &extBidder); err != nil {
+		errs = append(errs, err)
+		return nil, errs
+	}
+
+	endpoint := g.URI
+	if len(extBidder.Endpoint) > 0 {
+		endpoint = extBidder.Endpoint
+	}
+
 	request.Imp = validImps
 
 	if request.Site != nil {
@@ -64,7 +84,7 @@ func (g *GumGumAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapt
 	headers.Add("Accept", "application/json")
 	return []*adapters.RequestData{{
 		Method:  "POST",
-		Uri:     g.URI,
+		Uri:     endpoint,
 		Body:    reqJSON,
 		Headers: headers,
 	}}, errs

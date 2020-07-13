@@ -3,6 +3,7 @@ package rtbhouse
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/prebid/prebid-server/openrtb_ext"
 	"net/http"
 
 	"github.com/mxmCherry/openrtb"
@@ -27,6 +28,26 @@ func (adapter *RTBHouseAdapter) MakeRequests(
 	requestsToBidder []*adapters.RequestData,
 	errs []error,
 ) {
+	var (
+		extImp    adapters.ExtImpBidder
+		extBidder openrtb_ext.ExtImpBase
+	)
+
+	if err := json.Unmarshal(openRTBRequest.Imp[0].Ext, &extImp); err != nil {
+		errs = append(errs, err)
+		return nil, errs
+	}
+
+	if err := json.Unmarshal(extImp.Bidder, &extBidder); err != nil {
+		errs = append(errs, err)
+		return nil, errs
+	}
+
+	endpoint := adapter.endpoint
+	if len(extBidder.Endpoint) > 0 {
+		endpoint = extBidder.Endpoint
+	}
+
 	openRTBRequestJSON, err := json.Marshal(openRTBRequest)
 	if err != nil {
 		errs = append(errs, err)
@@ -37,7 +58,7 @@ func (adapter *RTBHouseAdapter) MakeRequests(
 	headers.Add("Content-Type", "application/json;charset=utf-8")
 	requestToBidder := &adapters.RequestData{
 		Method:  "POST",
-		Uri:     adapter.endpoint,
+		Uri:     endpoint,
 		Body:    openRTBRequestJSON,
 		Headers: headers,
 	}

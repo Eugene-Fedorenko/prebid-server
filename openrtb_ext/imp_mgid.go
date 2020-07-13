@@ -2,6 +2,7 @@ package openrtb_ext
 
 // ExtImpMgid defines the contract for bidrequest.imp[i].ext.mgid
 type ExtImpMgid struct {
+	ExtImpBase
 	AccountId   string  `json:"accountId"`
 	PlacementId string  `json:"placementId,omitempty"`
 	Cur         string  `json:"cur"`

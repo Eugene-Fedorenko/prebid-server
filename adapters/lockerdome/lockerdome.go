@@ -20,7 +20,7 @@ type LockerDomeAdapter struct {
 
 // MakeRequests makes the HTTP requests which should be made to fetch bids [from the bidder, in this case, LockerDome]
 func (adapter *LockerDomeAdapter) MakeRequests(openRTBRequest *openrtb.BidRequest, extraReqInfo *adapters.ExtraRequestInfo) (requestsToBidder []*adapters.RequestData, errs []error) {
-
+	var endpoint string
 	numberOfImps := len(openRTBRequest.Imp)
 
 	if openRTBRequest.Imp == nil || numberOfImps == 0 { // lockerdometest/supplemental/empty_imps.json
@@ -66,6 +66,9 @@ func (adapter *LockerDomeAdapter) MakeRequests(openRTBRequest *openrtb.BidReques
 			errs = append(errs, err)
 			continue
 		}
+		if endpoint == "" {
+			endpoint = lockerdomeExt.Endpoint
+		}
 		indexesOfValidImps = append(indexesOfValidImps, i)
 	}
 	if numberOfImps > len(indexesOfValidImps) {
@@ -94,9 +97,13 @@ func (adapter *LockerDomeAdapter) MakeRequests(openRTBRequest *openrtb.BidReques
 	headers.Add("Accept", "application/json")
 	headers.Add("x-openrtb-version", "2.5")
 
+	if len(endpoint) == 0 {
+		endpoint = adapter.endpoint
+	}
+
 	requestToBidder := &adapters.RequestData{
 		Method:  "POST",
-		Uri:     adapter.endpoint,
+		Uri:     endpoint,
 		Body:    openRTBRequestJSON,
 		Headers: headers,
 	}

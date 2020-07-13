@@ -37,7 +37,7 @@ func (a *MgidAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapter
 func (a *MgidAdapter) makeRequest(request *openrtb.BidRequest) (*adapters.RequestData, []error) {
 	var errs []error
 
-	path, err := preprocess(request)
+	path, endpoint, err := preprocess(request)
 	if err != nil {
 		errs = append(errs, err)
 		return nil, errs
@@ -54,16 +54,20 @@ func (a *MgidAdapter) makeRequest(request *openrtb.BidRequest) (*adapters.Reques
 	headers.Add("Content-Type", "application/json;charset=utf-8")
 	headers.Add("Accept", "application/json")
 
+	if len(endpoint) == 0 {
+		endpoint = a.endpoint
+	}
+
 	return &adapters.RequestData{
 		Method:  "POST",
-		Uri:     a.endpoint + path,
+		Uri:     endpoint + path,
 		Body:    reqJSON,
 		Headers: headers,
 	}, errs
 }
 
 // Mutate the request to get it ready to send to yieldmo.
-func preprocess(request *openrtb.BidRequest) (path string, err error) {
+func preprocess(request *openrtb.BidRequest) (path, endpoint string, err error) {
 	if request.TMax == 0 {
 		request.TMax = 200
 	}
@@ -72,7 +76,7 @@ func preprocess(request *openrtb.BidRequest) (path string, err error) {
 		var bidderExt adapters.ExtImpBidder
 
 		if err := json.Unmarshal(imp.Ext, &bidderExt); err != nil {
-			return "", &errortypes.BadInput{
+			return "", "", &errortypes.BadInput{
 				Message: err.Error(),
 			}
 		}
@@ -80,9 +84,13 @@ func preprocess(request *openrtb.BidRequest) (path string, err error) {
 		var mgidExt openrtb_ext.ExtImpMgid
 
 		if err := json.Unmarshal(bidderExt.Bidder, &mgidExt); err != nil {
-			return "", &errortypes.BadInput{
+			return "", "", &errortypes.BadInput{
 				Message: err.Error(),
 			}
+		}
+
+		if endpoint == "" {
+			endpoint = mgidExt.Endpoint
 		}
 
 		if path == "" {
@@ -113,7 +121,7 @@ func preprocess(request *openrtb.BidRequest) (path string, err error) {
 		}
 	}
 	if path == "" {
-		return "", &errortypes.BadInput{
+		return "", "", &errortypes.BadInput{
 			Message: "accountId is not set",
 		}
 	}

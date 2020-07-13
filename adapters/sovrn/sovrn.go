@@ -189,6 +189,26 @@ func (s *SovrnAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapte
 		return nil, errs
 	}
 
+	var (
+		extImp    adapters.ExtImpBidder
+		extBidder openrtb_ext.ExtImpBase
+	)
+
+	if err := json.Unmarshal(request.Imp[0].Ext, &extImp); err != nil {
+		errs = append(errs, err)
+		return nil, errs
+	}
+
+	if err := json.Unmarshal(extImp.Bidder, &extBidder); err != nil {
+		errs = append(errs, err)
+		return nil, errs
+	}
+
+	endpoint := s.URI
+	if len(extBidder.Endpoint) > 0 {
+		endpoint = extBidder.Endpoint
+	}
+
 	reqJSON, err := json.Marshal(request)
 	if err != nil {
 		errs = append(errs, err)
@@ -215,7 +235,7 @@ func (s *SovrnAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapte
 
 	return []*adapters.RequestData{{
 		Method:  "POST",
-		Uri:     s.URI,
+		Uri:     endpoint,
 		Body:    reqJSON,
 		Headers: headers,
 	}}, errs

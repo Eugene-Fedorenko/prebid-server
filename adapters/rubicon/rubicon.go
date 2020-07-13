@@ -780,9 +780,14 @@ func (a *RubiconAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adap
 			continue
 		}
 
+		endpoint := a.URI
+		if len(rubiconExt.Endpoint) > 0 {
+			endpoint = rubiconExt.Endpoint
+		}
+
 		reqData := &adapters.RequestData{
 			Method:  "POST",
-			Uri:     a.URI,
+			Uri:     endpoint,
 			Body:    reqJSON,
 			Headers: headers,
 		}

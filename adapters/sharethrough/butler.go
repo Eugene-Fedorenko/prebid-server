@@ -18,6 +18,7 @@ import (
 const defaultTmax = 10000 // 10 sec
 
 type StrAdSeverParams struct {
+	Endpoint           string
 	Pkey               string
 	BidID              string
 	ConsentRequired    bool
@@ -104,6 +105,7 @@ func (s StrOpenRTBTranslator) requestFromOpenRTB(imp openrtb.Imp, request *openr
 	return &adapters.RequestData{
 		Method: "POST",
 		Uri: s.UriHelper.buildUri(StrAdSeverParams{
+			Endpoint:           strImpParams.Endpoint,
 			Pkey:               pKey,
 			BidID:              imp.ID,
 			ConsentRequired:    s.Util.gdprApplies(request),
@@ -211,7 +213,12 @@ func (h StrUriHelper) buildUri(params StrAdSeverParams) string {
 	v.Set("supplyId", supplyId)
 	v.Set("strVersion", strconv.FormatInt(strVersion, 10))
 
-	return h.BaseURI + "?" + v.Encode()
+	endpoint := h.BaseURI
+	if len(params.Endpoint) > 0 {
+		endpoint = params.Endpoint
+	}
+
+	return endpoint + "?" + v.Encode()
 }
 
 func (h StrUriHelper) parseUri(uri string) (*StrAdSeverParams, error) {

@@ -19,6 +19,26 @@ type ImprovedigitalAdapter struct {
 func (a *ImprovedigitalAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapters.ExtraRequestInfo) ([]*adapters.RequestData, []error) {
 	var errors = make([]error, 0)
 
+	var (
+		extImp    adapters.ExtImpBidder
+		extBidder openrtb_ext.ExtImpBase
+	)
+
+	if err := json.Unmarshal(request.Imp[0].Ext, &extImp); err != nil {
+		errors = append(errors, err)
+		return nil, errors
+	}
+
+	if err := json.Unmarshal(extImp.Bidder, &extBidder); err != nil {
+		errors = append(errors, err)
+		return nil, errors
+	}
+
+	endpoint := a.endpoint
+	if len(extBidder.Endpoint) > 0 {
+		endpoint = extBidder.Endpoint
+	}
+
 	reqJSON, err := json.Marshal(request)
 	if err != nil {
 		errors = append(errors, err)
@@ -30,7 +50,7 @@ func (a *ImprovedigitalAdapter) MakeRequests(request *openrtb.BidRequest, reqInf
 
 	return []*adapters.RequestData{{
 		Method:  "POST",
-		Uri:     a.endpoint,
+		Uri:     endpoint,
 		Body:    reqJSON,
 		Headers: headers,
 	}}, errors

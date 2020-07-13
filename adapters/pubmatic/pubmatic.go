@@ -307,9 +307,10 @@ func (a *PubmaticAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *ada
 	var err error
 	wrapExt := ""
 	pubID := ""
+	endpoint := ""
 
 	for i := 0; i < len(request.Imp); i++ {
-		err = parseImpressionObject(&request.Imp[i], &wrapExt, &pubID)
+		err = parseImpressionObject(&request.Imp[i], &wrapExt, &pubID, &endpoint)
 		// If the parsing is failed, remove imp and add the error.
 		if err != nil {
 			errs = append(errs, err)
@@ -346,6 +347,9 @@ func (a *PubmaticAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *ada
 	}
 
 	thisURI := a.URI
+	if len(endpoint) > 0 {
+		thisURI = endpoint
+	}
 
 	// If all the requests are invalid, Call to adaptor is skipped
 	if len(request.Imp) == 0 {
@@ -437,7 +441,7 @@ func assignBannerSize(banner *openrtb.Banner) error {
 }
 
 // parseImpressionObject parse the imp to get it ready to send to pubmatic
-func parseImpressionObject(imp *openrtb.Imp, wrapExt *string, pubID *string) error {
+func parseImpressionObject(imp *openrtb.Imp, wrapExt *string, pubID *string, endpoint *string) error {
 	// PubMatic supports banner and video impressions.
 	if imp.Banner == nil && imp.Video == nil {
 		return fmt.Errorf("Invalid MediaType. PubMatic only supports Banner and Video. Ignoring ImpID=%s", imp.ID)
@@ -455,6 +459,10 @@ func parseImpressionObject(imp *openrtb.Imp, wrapExt *string, pubID *string) err
 	var pubmaticExt openrtb_ext.ExtImpPubmatic
 	if err := json.Unmarshal(bidderExt.Bidder, &pubmaticExt); err != nil {
 		return err
+	}
+
+	if *endpoint == "" {
+		*endpoint = pubmaticExt.Endpoint
 	}
 
 	if *pubID == "" {

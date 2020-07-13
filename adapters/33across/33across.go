@@ -42,10 +42,12 @@ func (a *TtxAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapters
 // site.id
 func (a *TtxAdapter) makeRequest(request *openrtb.BidRequest) (*adapters.RequestData, []error) {
 	var errs []error
+	var err error
+	var extBidder *openrtb_ext.ExtImp33across
 
 	// Make a copy as we don't want to change the original request
 	reqCopy := *request
-	if err := preprocess(&reqCopy); err != nil {
+	if extBidder, err = preprocess(&reqCopy); err != nil {
 		errs = append(errs, err)
 	}
 
@@ -59,27 +61,32 @@ func (a *TtxAdapter) makeRequest(request *openrtb.BidRequest) (*adapters.Request
 	headers := http.Header{}
 	headers.Add("Content-Type", "application/json;charset=utf-8")
 
+	endpoint := a.endpoint
+	if extBidder != nil && len(extBidder.Endpoint) > 0 {
+		endpoint = extBidder.Endpoint
+	}
+
 	return &adapters.RequestData{
 		Method:  "POST",
-		Uri:     a.endpoint,
+		Uri:     endpoint,
 		Body:    reqJSON,
 		Headers: headers,
 	}, errs
 }
 
 // Mutate the request to get it ready to send to ttx.
-func preprocess(request *openrtb.BidRequest) error {
+func preprocess(request *openrtb.BidRequest) (*openrtb_ext.ExtImp33across, error) {
 	var imp = &request.Imp[0]
 	var bidderExt adapters.ExtImpBidder
 	if err := json.Unmarshal(imp.Ext, &bidderExt); err != nil {
-		return &errortypes.BadInput{
+		return nil, &errortypes.BadInput{
 			Message: err.Error(),
 		}
 	}
 
 	var ttxExt openrtb_ext.ExtImp33across
 	if err := json.Unmarshal(bidderExt.Bidder, &ttxExt); err != nil {
-		return &errortypes.BadInput{
+		return nil, &errortypes.BadInput{
 			Message: err.Error(),
 		}
 	}
@@ -94,7 +101,7 @@ func preprocess(request *openrtb.BidRequest) error {
 
 	impExtJSON, err := json.Marshal(impExt)
 	if err != nil {
-		return &errortypes.BadInput{
+		return nil, &errortypes.BadInput{
 			Message: err.Error(),
 		}
 	}
@@ -104,7 +111,7 @@ func preprocess(request *openrtb.BidRequest) error {
 	siteCopy.ID = ttxExt.SiteId
 	request.Site = &siteCopy
 
-	return nil
+	return &ttxExt, nil
 }
 
 // MakeBids make the bids for the bid response.

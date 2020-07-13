@@ -37,7 +37,8 @@ func (a *IxAdapter) SkipNoCookies() bool {
 }
 
 type indexParams struct {
-	SiteID string `json:"siteId"`
+	SiteID   string `json:"siteId"`
+	Endpoint string `json:"endpoint"`
 }
 
 type ixBidResult struct {
@@ -76,6 +77,8 @@ func (a *IxAdapter) Call(ctx context.Context, req *pbs.PBSRequest, bidder *pbs.P
 		return nil, err
 	}
 
+	endpoint := ""
+
 	indexReqImp := indexReq.Imp
 	for i, unit := range bidder.AdUnits {
 
@@ -96,6 +99,10 @@ func (a *IxAdapter) Call(ctx context.Context, req *pbs.PBSRequest, bidder *pbs.P
 			return nil, &errortypes.BadInput{
 				Message: "Missing siteId param",
 			}
+		}
+
+		if endpoint == "" {
+			endpoint = params.Endpoint
 		}
 
 		for sizeIndex, format := range unit.Sizes {
@@ -144,10 +151,14 @@ func (a *IxAdapter) Call(ctx context.Context, req *pbs.PBSRequest, bidder *pbs.P
 		}
 	}
 
+	if len(endpoint) == 0 {
+		endpoint = a.URI
+	}
+
 	ch := make(chan ixBidResult)
 	for _, request := range requests {
 		go func(bidder *pbs.PBSBidder, request callOneObject) {
-			result, err := a.callOne(ctx, request.requestJSON)
+			result, err := a.callOne(ctx, request.requestJSON, endpoint)
 			result.Request = &request
 			result.Error = err
 			if result.Bid != nil {
@@ -194,10 +205,10 @@ func (a *IxAdapter) Call(ctx context.Context, req *pbs.PBSRequest, bidder *pbs.P
 	return bids, nil
 }
 
-func (a *IxAdapter) callOne(ctx context.Context, reqJSON bytes.Buffer) (ixBidResult, error) {
+func (a *IxAdapter) callOne(ctx context.Context, reqJSON bytes.Buffer, endpoint string) (ixBidResult, error) {
 	var result ixBidResult
 
-	httpReq, _ := http.NewRequest("POST", a.URI, &reqJSON)
+	httpReq, _ := http.NewRequest("POST", endpoint, &reqJSON)
 	httpReq.Header.Add("Content-Type", "application/json;charset=utf-8")
 	httpReq.Header.Add("Accept", "application/json")
 

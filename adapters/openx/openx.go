@@ -67,12 +67,15 @@ func (a *OpenxAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapte
 func (a *OpenxAdapter) makeRequest(request *openrtb.BidRequest) (*adapters.RequestData, []error) {
 	var errs []error
 	var validImps []openrtb.Imp
+	var endpoint string
 	reqExt := openxReqExt{BidderConfig: hbconfig}
 
 	for _, imp := range request.Imp {
-		if err := preprocess(&imp, &reqExt); err != nil {
+		if ep, err := preprocess(&imp, &reqExt); err != nil {
 			errs = append(errs, err)
 			continue
+		} else if endpoint == "" {
+			endpoint = ep
 		}
 		validImps = append(validImps, imp)
 	}
@@ -97,29 +100,33 @@ func (a *OpenxAdapter) makeRequest(request *openrtb.BidRequest) (*adapters.Reque
 		return nil, errs
 	}
 
+	if len(endpoint) == 0 {
+		endpoint = a.endpoint
+	}
+
 	headers := http.Header{}
 	headers.Add("Content-Type", "application/json;charset=utf-8")
 	headers.Add("Accept", "application/json")
 	return &adapters.RequestData{
 		Method:  "POST",
-		Uri:     a.endpoint,
+		Uri:     endpoint,
 		Body:    reqJSON,
 		Headers: headers,
 	}, errs
 }
 
 // Mutate the imp to get it ready to send to openx.
-func preprocess(imp *openrtb.Imp, reqExt *openxReqExt) error {
+func preprocess(imp *openrtb.Imp, reqExt *openxReqExt) (string, error) {
 	var bidderExt adapters.ExtImpBidder
 	if err := json.Unmarshal(imp.Ext, &bidderExt); err != nil {
-		return &errortypes.BadInput{
+		return "", &errortypes.BadInput{
 			Message: err.Error(),
 		}
 	}
 
 	var openxExt openrtb_ext.ExtImpOpenx
 	if err := json.Unmarshal(bidderExt.Bidder, &openxExt); err != nil {
-		return &errortypes.BadInput{
+		return "", &errortypes.BadInput{
 			Message: err.Error(),
 		}
 	}
@@ -136,7 +143,7 @@ func preprocess(imp *openrtb.Imp, reqExt *openxReqExt) error {
 		}
 		var err error
 		if imp.Ext, err = json.Marshal(impExt); err != nil {
-			return &errortypes.BadInput{
+			return "", &errortypes.BadInput{
 				Message: err.Error(),
 			}
 		}
@@ -152,7 +159,7 @@ func preprocess(imp *openrtb.Imp, reqExt *openxReqExt) error {
 		imp.Video = &videoCopy
 	}
 
-	return nil
+	return openxExt.Endpoint, nil
 }
 
 func (a *OpenxAdapter) MakeBids(internalRequest *openrtb.BidRequest, externalRequest *adapters.RequestData, response *adapters.ResponseData) (*adapters.BidderResponse, []error) {

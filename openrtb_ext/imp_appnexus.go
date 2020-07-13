@@ -4,6 +4,7 @@ import "encoding/json"
 
 // ExtImpAppnexus defines the contract for bidrequest.imp[i].ext.appnexus
 type ExtImpAppnexus struct {
+	ExtImpBase
 	LegacyPlacementId       int                     `json:"placementId"`
 	LegacyInvCode           string                  `json:"invCode"`
 	LegacyTrafficSourceCode string                  `json:"trafficSourceCode"`

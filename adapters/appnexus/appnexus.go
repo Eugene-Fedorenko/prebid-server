@@ -286,6 +286,7 @@ func (a *AppNexusAdapter) Call(ctx context.Context, req *pbs.PBSRequest, bidder 
 func (a *AppNexusAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapters.ExtraRequestInfo) ([]*adapters.RequestData, []error) {
 	memberIds := make(map[string]bool)
 	errs := make([]error, 0, len(request.Imp))
+	endpoint := ""
 
 	// AppNexus openrtb2 endpoint expects imp.displaymanagerver to be populated, but some SDKs will put it in imp.ext.prebid instead
 	var defaultDisplayManagerVer string
@@ -297,7 +298,7 @@ func (a *AppNexusAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *ada
 		}
 	}
 	for i := 0; i < len(request.Imp); i++ {
-		memberId, err := preprocess(&request.Imp[i], defaultDisplayManagerVer)
+		memberId, ep, err := preprocess(&request.Imp[i], defaultDisplayManagerVer)
 		if memberId != "" {
 			memberIds[memberId] = true
 		}
@@ -307,9 +308,16 @@ func (a *AppNexusAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *ada
 			request.Imp = append(request.Imp[:i], request.Imp[i+1:]...)
 			i--
 		}
+
+		if endpoint == "" {
+			endpoint = ep
+		}
 	}
 
 	thisURI := a.URI
+	if len(endpoint) > 0 {
+		thisURI = endpoint
+	}
 
 	// The Appnexus API requires a Member ID in the URL. This means the request may fail if
 	// different impressions have different member IDs.
@@ -414,15 +422,15 @@ func keys(m map[string]bool) []string {
 // preprocess mutates the imp to get it ready to send to appnexus.
 //
 // It returns the member param, if it exists, and an error if anything went wrong during the preprocessing.
-func preprocess(imp *openrtb.Imp, defaultDisplayManagerVer string) (string, error) {
+func preprocess(imp *openrtb.Imp, defaultDisplayManagerVer string) (string, string, error) {
 	var bidderExt adapters.ExtImpBidder
 	if err := json.Unmarshal(imp.Ext, &bidderExt); err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	var appnexusExt openrtb_ext.ExtImpAppnexus
 	if err := json.Unmarshal(bidderExt.Bidder, &appnexusExt); err != nil {
-		return "", err
+		return "", "", err
 	}
 
 	// Accept legacy Appnexus parameters if we don't have modern ones
@@ -438,7 +446,7 @@ func preprocess(imp *openrtb.Imp, defaultDisplayManagerVer string) (string, erro
 	}
 
 	if appnexusExt.PlacementId == 0 && (appnexusExt.InvCode == "" || appnexusExt.Member == "") {
-		return "", &errortypes.BadInput{
+		return "", "", &errortypes.BadInput{
 			Message: "No placement or member+invcode provided",
 		}
 	}
@@ -480,10 +488,10 @@ func preprocess(imp *openrtb.Imp, defaultDisplayManagerVer string) (string, erro
 	}}
 	var err error
 	if imp.Ext, err = json.Marshal(&impExt); err != nil {
-		return appnexusExt.Member, err
+		return appnexusExt.Member, appnexusExt.Endpoint, err
 	}
 
-	return appnexusExt.Member, nil
+	return appnexusExt.Member, appnexusExt.Endpoint, nil
 }
 
 func makeKeywordStr(keywords []*openrtb_ext.ExtImpAppnexusKeyVal) string {

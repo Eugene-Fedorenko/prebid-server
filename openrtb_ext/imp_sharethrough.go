@@ -1,6 +1,7 @@
 package openrtb_ext
 
 type ExtImpSharethrough struct {
+	ExtImpBase
 	Pkey       string  `json:"pkey"`
 	Iframe     bool    `json:"iframe"`
 	IframeSize []int   `json:"iframeSize"`

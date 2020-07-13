@@ -67,6 +67,7 @@ func (adapter *EPlanningAdapter) MakeRequests(request *openrtb.BidRequest, reqIn
 	spacesStrings := make([]string, 0, totalImps)
 	totalRequests := 0
 	clientID := ""
+	endpoint := ""
 
 	for i := 0; i < totalImps; i++ {
 		imp := request.Imp[i]
@@ -78,6 +79,10 @@ func (adapter *EPlanningAdapter) MakeRequests(request *openrtb.BidRequest, reqIn
 
 		if clientID == "" {
 			clientID = extImp.ClientID
+		}
+
+		if endpoint == "" {
+			endpoint = extImp.Endpoint
 		}
 
 		totalRequests++
@@ -125,7 +130,11 @@ func (adapter *EPlanningAdapter) MakeRequests(request *openrtb.BidRequest, reqIn
 		requestTarget = pageDomain
 	}
 
-	uriObj, err := url.Parse(adapter.URI)
+	if len(endpoint) == 0 {
+		endpoint = adapter.URI
+	}
+
+	uriObj, err := url.Parse(endpoint)
 	if err != nil {
 		errors = append(errors, err)
 		return nil, errors

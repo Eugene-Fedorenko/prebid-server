@@ -9,6 +9,7 @@ import "encoding/json"
 // WrapExt needs to be sent once per bid request
 
 type ExtImpPubmatic struct {
+	ExtImpBase
 	PublisherId string                  `json:"publisherId"`
 	AdSlot      string                  `json:"adSlot"`
 	WrapExt     json.RawMessage         `json:"wrapper,omitempty"`

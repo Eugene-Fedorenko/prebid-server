@@ -26,6 +26,7 @@ type dmxExt struct {
 }
 
 type dmxParams struct {
+	openrtb_ext.ExtImpBase
 	TagId       string `json:"tagid,omitempty"`
 	DmxId       string `json:"dmxid,omitempty"`
 	MemberId    string `json:"memberid,omitempty"`
@@ -159,11 +160,16 @@ func (adapter *DmxAdapter) MakeRequests(request *openrtb.BidRequest, req *adapte
 		return nil, errs
 	}
 
+	endpoint := adapter.endpoint
+	if len(rootExtInfo.Bidder.Endpoint) > 0 {
+		endpoint = rootExtInfo.Bidder.Endpoint
+	}
+
 	headers := http.Header{}
 	headers.Add("Content-Type", "Application/json;charset=utf-8")
 	reqBidder := &adapters.RequestData{
 		Method:  "POST",
-		Uri:     adapter.endpoint + addParams(sellerId), //adapter.endpoint,
+		Uri:     endpoint + addParams(sellerId), //adapter.endpoint,
 		Body:    oJson,
 		Headers: headers,
 	}

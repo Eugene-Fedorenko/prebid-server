@@ -109,7 +109,7 @@ func (a *AdformAdapter) Call(ctx context.Context, request *pbs.PBSRequest, bidde
 		return nil, err
 	}
 
-	uri := adformRequest.buildAdformUrl(a)
+	uri := adformRequest.buildAdformUrl(a.URL)
 
 	debug := &pbs.BidderDebug{RequestURI: uri}
 	if request.IsDebug {
@@ -261,7 +261,7 @@ func toPBSBidSlice(adformBids []*adformBid, r *adformRequest) pbs.PBSBidSlice {
 
 // COMMON
 
-func (r *adformRequest) buildAdformUrl(a *AdformAdapter) string {
+func (r *adformRequest) buildAdformUrl(URL *url.URL) string {
 	parameters := url.Values{}
 
 	if r.advertisingId != "" {
@@ -284,7 +284,6 @@ func (r *adformRequest) buildAdformUrl(a *AdformAdapter) string {
 		parameters.Add("eids", r.eids)
 	}
 
-	URL := *a.URL
 	URL.RawQuery = parameters.Encode()
 
 	uri := URL.String()
@@ -391,9 +390,34 @@ func (a *AdformAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapt
 		return nil, errors
 	}
 
+	var (
+		extImp    adapters.ExtImpBidder
+		extBidder openrtb_ext.ExtImpBase
+	)
+
+	if err := json.Unmarshal(request.Imp[0].Ext, &extImp); err != nil {
+		errors = append(errors, err)
+		return nil, errors
+	}
+
+	if err := json.Unmarshal(extImp.Bidder, &extBidder); err != nil {
+		errors = append(errors, err)
+		return nil, errors
+	}
+
+	var err error
+	URL := a.URL
+	if len(extBidder.Endpoint) > 0 {
+		URL, err = url.Parse(extBidder.Endpoint)
+		if err != nil {
+			errors = append(errors, err)
+			return nil, errors
+		}
+	}
+
 	requestData := adapters.RequestData{
 		Method:  "GET",
-		Uri:     adformRequest.buildAdformUrl(a),
+		Uri:     adformRequest.buildAdformUrl(URL),
 		Body:    nil,
 		Headers: adformRequest.buildAdformHeaders(a),
 	}
