@@ -3,7 +3,7 @@ package rtbhouse
 import (
 	"testing"
 
-	"github.com/prebid/prebid-server/adapters/adapterstest"
+	"github.com/eugene-fedorenko/prebid-server/adapters/adapterstest"
 )
 
 const testsDir = "rtbhousetest"

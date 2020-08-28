@@ -10,9 +10,9 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/pbsmetrics"
-	metricsConf "github.com/prebid/prebid-server/pbsmetrics/config"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/pbsmetrics"
+	metricsConf "github.com/eugene-fedorenko/prebid-server/pbsmetrics/config"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"

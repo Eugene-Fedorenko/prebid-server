@@ -12,8 +12,8 @@ import (
 	"time"
 
 	"github.com/mxmCherry/openrtb"
-	"github.com/prebid/prebid-server/adapters"
-	"github.com/prebid/prebid-server/pbs"
+	"github.com/eugene-fedorenko/prebid-server/adapters"
+	"github.com/eugene-fedorenko/prebid-server/pbs"
 )
 
 const url string = "http://appnexus-us-east.lb.indexww.com/bidder?p=184932"

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
 )
 
 func TestValidParams(t *testing.T) {

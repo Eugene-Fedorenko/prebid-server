@@ -3,12 +3,12 @@ package rtbhouse
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
 	"net/http"
 
 	"github.com/mxmCherry/openrtb"
-	"github.com/prebid/prebid-server/adapters"
-	"github.com/prebid/prebid-server/errortypes"
+	"github.com/eugene-fedorenko/prebid-server/adapters"
+	"github.com/eugene-fedorenko/prebid-server/errortypes"
 )
 
 func NewRTBHouseBidder(endpoint string) *RTBHouseAdapter {

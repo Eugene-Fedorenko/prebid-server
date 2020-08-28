@@ -10,15 +10,15 @@ import (
 	"testing"
 	"time"
 
-	"github.com/prebid/prebid-server/cache/dummycache"
-	"github.com/prebid/prebid-server/pbs"
-	"github.com/prebid/prebid-server/usersync"
+	"github.com/eugene-fedorenko/prebid-server/cache/dummycache"
+	"github.com/eugene-fedorenko/prebid-server/pbs"
+	"github.com/eugene-fedorenko/prebid-server/usersync"
 
 	"fmt"
 
 	"github.com/mxmCherry/openrtb"
-	"github.com/prebid/prebid-server/adapters"
-	"github.com/prebid/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/adapters"
+	"github.com/eugene-fedorenko/prebid-server/config"
 )
 
 type lsTagInfo struct {

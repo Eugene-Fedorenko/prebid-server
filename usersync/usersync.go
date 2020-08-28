@@ -1,6 +1,6 @@
 package usersync
 
-import "github.com/prebid/prebid-server/privacy"
+import "github.com/eugene-fedorenko/prebid-server/privacy"
 
 type Usersyncer interface {
 	// GetUsersyncInfo returns basic info the browser needs in order to run a user sync.

@@ -3,11 +3,11 @@ package dmx
 import (
 	"encoding/json"
 	"github.com/mxmCherry/openrtb"
-	"github.com/prebid/prebid-server/adapters"
+	"github.com/eugene-fedorenko/prebid-server/adapters"
 	"strings"
 	"testing"
 
-	"github.com/prebid/prebid-server/adapters/adapterstest"
+	"github.com/eugene-fedorenko/prebid-server/adapters/adapterstest"
 )
 
 var (

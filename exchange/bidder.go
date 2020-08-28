@@ -11,17 +11,17 @@ import (
 	"time"
 
 	"github.com/golang/glog"
-	"github.com/prebid/prebid-server/config/util"
+	"github.com/eugene-fedorenko/prebid-server/config/util"
 
 	"github.com/mxmCherry/openrtb"
 	nativeRequests "github.com/mxmCherry/openrtb/native/request"
 	nativeResponse "github.com/mxmCherry/openrtb/native/response"
-	"github.com/prebid/prebid-server/adapters"
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/currencies"
-	"github.com/prebid/prebid-server/errortypes"
-	"github.com/prebid/prebid-server/openrtb_ext"
-	"github.com/prebid/prebid-server/pbsmetrics"
+	"github.com/eugene-fedorenko/prebid-server/adapters"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/currencies"
+	"github.com/eugene-fedorenko/prebid-server/errortypes"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/pbsmetrics"
 	"golang.org/x/net/context/ctxhttp"
 )
 

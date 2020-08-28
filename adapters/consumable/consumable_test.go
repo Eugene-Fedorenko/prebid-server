@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/prebid/prebid-server/adapters/adapterstest"
+	"github.com/eugene-fedorenko/prebid-server/adapters/adapterstest"
 )
 
 func TestJsonSamples(t *testing.T) {

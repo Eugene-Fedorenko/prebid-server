@@ -10,13 +10,13 @@ import (
 
 	"github.com/buger/jsonparser"
 	"github.com/mxmCherry/openrtb"
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/gdpr"
-	"github.com/prebid/prebid-server/openrtb_ext"
-	"github.com/prebid/prebid-server/pbsmetrics"
-	"github.com/prebid/prebid-server/privacy"
-	"github.com/prebid/prebid-server/privacy/ccpa"
-	"github.com/prebid/prebid-server/privacy/lmt"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/gdpr"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/pbsmetrics"
+	"github.com/eugene-fedorenko/prebid-server/privacy"
+	"github.com/eugene-fedorenko/prebid-server/privacy/ccpa"
+	"github.com/eugene-fedorenko/prebid-server/privacy/lmt"
 )
 
 // cleanMetrics is a struct to export any metrics data resulting from cleanOpenRTBRequests(). It starts with just

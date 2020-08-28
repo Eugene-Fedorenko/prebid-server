@@ -1,0 +1,9 @@
+maintainer:
+  email: "info@stroeer-ssp.de"
+capabilities:
+  app:
+    mediaTypes:
+      - banner
+  site:
+    mediaTypes:
+      - banner

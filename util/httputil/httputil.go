@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/prebid/prebid-server/util/iputil"
+	"github.com/eugene-fedorenko/prebid-server/util/iputil"
 )
 
 var (

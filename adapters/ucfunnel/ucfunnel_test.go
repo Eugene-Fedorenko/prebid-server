@@ -6,8 +6,8 @@ import (
 	"testing"
 
 	"github.com/mxmCherry/openrtb"
-	"github.com/prebid/prebid-server/adapters"
-	"github.com/prebid/prebid-server/adapters/adapterstest"
+	"github.com/eugene-fedorenko/prebid-server/adapters"
+	"github.com/eugene-fedorenko/prebid-server/adapters/adapterstest"
 )
 
 func TestUcfunnelAdapterNames(t *testing.T) {

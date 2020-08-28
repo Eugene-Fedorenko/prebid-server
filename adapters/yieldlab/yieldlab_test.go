@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/prebid/prebid-server/adapters/adapterstest"
+	"github.com/eugene-fedorenko/prebid-server/adapters/adapterstest"
 )
 
 const testURL = "https://ad.yieldlab.net/testing/"

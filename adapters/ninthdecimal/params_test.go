@@ -2,7 +2,7 @@ package ninthdecimal
 
 import (
 	"encoding/json"
-	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
 	"testing"
 )
 

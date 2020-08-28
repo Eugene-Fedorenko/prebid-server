@@ -2,8 +2,8 @@ package triplelift_native
 
 import (
 	"fmt"
-	"github.com/prebid/prebid-server/adapters"
-	"github.com/prebid/prebid-server/adapters/adapterstest"
+	"github.com/eugene-fedorenko/prebid-server/adapters"
+	"github.com/eugene-fedorenko/prebid-server/adapters/adapterstest"
 	"github.com/stretchr/testify/assert"
 	"testing"
 )

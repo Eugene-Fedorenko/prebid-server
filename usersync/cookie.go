@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
 )
 
 const (
@@ -23,7 +23,9 @@ const (
 
 // customBidderTTLs stores rules about how long a particular UID sync is valid for each bidder.
 // If a bidder does a cookie sync *without* listing a rule here, then the DEFAULT_TTL will be used.
-var customBidderTTLs = map[string]time.Duration{}
+var customBidderTTLs = map[string]time.Duration{
+	"stroeerCore": time.Second * 30,
+}
 
 // bidderToFamilyNames maps the BidderName to Adapter.Name() for the early adapters.
 // If a mapping isn't listed here, then we assume that the two are the same.

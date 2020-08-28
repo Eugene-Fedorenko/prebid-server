@@ -12,10 +12,10 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/prebid/prebid-server/adapters"
-	"github.com/prebid/prebid-server/errortypes"
-	"github.com/prebid/prebid-server/openrtb_ext"
-	"github.com/prebid/prebid-server/pbs"
+	"github.com/eugene-fedorenko/prebid-server/adapters"
+	"github.com/eugene-fedorenko/prebid-server/errortypes"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/pbs"
 
 	"github.com/buger/jsonparser"
 	"github.com/mxmCherry/openrtb"

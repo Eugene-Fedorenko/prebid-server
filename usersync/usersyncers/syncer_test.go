@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
 )
 
 func TestNewSyncerMap(t *testing.T) {
@@ -66,6 +66,7 @@ func TestNewSyncerMap(t *testing.T) {
 			string(openrtb_ext.BidderSovrn):            syncConfig,
 			string(openrtb_ext.BidderSmartadserver):    syncConfig,
 			string(openrtb_ext.BidderSmartRTB):         syncConfig,
+			string(openrtb_ext.BidderStroeerCore):      syncConfig,
 			string(openrtb_ext.BidderSynacormedia):     syncConfig,
 			string(openrtb_ext.BidderTelaria):          syncConfig,
 			string(openrtb_ext.BidderTriplelift):       syncConfig,
