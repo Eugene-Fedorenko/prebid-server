@@ -250,6 +250,15 @@ func initPBSAdUnit(imp *openrtb.Imp, adUnit *pbs.PBSAdUnit) error {
 	}
 	topFrame := int8(0)
 	if imp.Banner != nil {
+		if len(imp.Banner.Format) == 0 &&
+			imp.Banner.W != nil && imp.Banner.H != nil &&
+			*imp.Banner.W != 0 && *imp.Banner.H != 0 {
+			sizes = append(sizes, openrtb.Format{
+				W: *imp.Banner.W,
+				H: *imp.Banner.H,
+			})
+		}
+
 		topFrame = imp.Banner.TopFrame
 		sizes = append(sizes, imp.Banner.Format...)
 	}
