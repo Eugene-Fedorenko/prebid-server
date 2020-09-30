@@ -20,6 +20,7 @@ type adtelligentImpExt struct {
 }
 
 func (a *AdtelligentAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapters.ExtraRequestInfo) ([]*adapters.RequestData, []error) {
+	endpoint := a.endpoint
 
 	totalImps := len(request.Imp)
 	errors := make([]error, 0, totalImps)
@@ -27,11 +28,15 @@ func (a *AdtelligentAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *
 
 	for i := 0; i < totalImps; i++ {
 
-		sourceId, err := validateImpression(&request.Imp[i])
+		sourceId, ep, err := validateImpression(&request.Imp[i])
 
 		if err != nil {
 			errors = append(errors, err)
 			continue
+		}
+
+		if len(ep) > 0 {
+			endpoint = ep
 		}
 
 		if _, ok := imp2source[sourceId]; !ok {
@@ -70,7 +75,7 @@ func (a *AdtelligentAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *
 
 		reqs = append(reqs, &adapters.RequestData{
 			Method:  "POST",
-			Uri:     a.endpoint + fmt.Sprintf("?aid=%d", sourceId),
+			Uri:     endpoint + fmt.Sprintf("?aid=%d", sourceId),
 			Body:    body,
 			Headers: headers,
 		})
@@ -137,16 +142,16 @@ func (a *AdtelligentAdapter) MakeBids(bidReq *openrtb.BidRequest, unused *adapte
 	return bidResponse, errors
 }
 
-func validateImpression(imp *openrtb.Imp) (int, error) {
+func validateImpression(imp *openrtb.Imp) (int, string, error) {
 
 	if imp.Banner == nil && imp.Video == nil {
-		return 0, &errortypes.BadInput{
+		return 0, "", &errortypes.BadInput{
 			Message: fmt.Sprintf("ignoring imp id=%s, Adtelligent supports only Video and Banner", imp.ID),
 		}
 	}
 
 	if 0 == len(imp.Ext) {
-		return 0, &errortypes.BadInput{
+		return 0, "", &errortypes.BadInput{
 			Message: fmt.Sprintf("ignoring imp id=%s, extImpBidder is empty", imp.ID),
 		}
 	}
@@ -154,7 +159,7 @@ func validateImpression(imp *openrtb.Imp) (int, error) {
 	var bidderExt adapters.ExtImpBidder
 
 	if err := json.Unmarshal(imp.Ext, &bidderExt); err != nil {
-		return 0, &errortypes.BadInput{
+		return 0, "", &errortypes.BadInput{
 			Message: fmt.Sprintf("ignoring imp id=%s, error while decoding extImpBidder, err: %s", imp.ID, err),
 		}
 	}
@@ -162,7 +167,7 @@ func validateImpression(imp *openrtb.Imp) (int, error) {
 	impExt := openrtb_ext.ExtImpAdtelligent{}
 	err := json.Unmarshal(bidderExt.Bidder, &impExt)
 	if err != nil {
-		return 0, &errortypes.BadInput{
+		return 0, "", &errortypes.BadInput{
 			Message: fmt.Sprintf("ignoring imp id=%s, error while decoding impExt, err: %s", imp.ID, err),
 		}
 	}
@@ -180,7 +185,7 @@ func validateImpression(imp *openrtb.Imp) (int, error) {
 
 	imp.Ext = impExtBuffer
 
-	return impExt.SourceId, nil
+	return impExt.SourceId, impExt.Endpoint, nil
 }
 
 func NewAdtelligentBidder(endpoint string) *AdtelligentAdapter {
