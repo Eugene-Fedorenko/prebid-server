@@ -1,9 +1,10 @@
 package aja
 
 import (
-	"github.com/eugene-fedorenko/prebid-server/privacy/ccpa"
 	"testing"
 	"text/template"
+
+	"github.com/eugene-fedorenko/prebid-server/privacy/ccpa"
 
 	"github.com/eugene-fedorenko/prebid-server/privacy"
 	"github.com/eugene-fedorenko/prebid-server/privacy/gdpr"
@@ -23,7 +24,7 @@ func TestAJASyncer(t *testing.T) {
 			Consent: "BOPVK28OVJoTBABABAENBs-AAAAhuAKAANAAoACwAGgAPAAxAB0AHgAQAAiABOADkA",
 		},
 		CCPA: ccpa.Policy{
-			Value: "C",
+			Consent: "C",
 		},
 	})
 

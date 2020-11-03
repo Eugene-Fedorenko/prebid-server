@@ -3,16 +3,17 @@ package sharethrough
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/mxmCherry/openrtb"
-	"github.com/eugene-fedorenko/prebid-server/adapters"
-	"github.com/eugene-fedorenko/prebid-server/errortypes"
-	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
-	"github.com/eugene-fedorenko/prebid-server/privacy/ccpa"
 	"net/http"
 	"net/url"
 	"regexp"
 	"strconv"
 	"time"
+
+	"github.com/eugene-fedorenko/prebid-server/adapters"
+	"github.com/eugene-fedorenko/prebid-server/errortypes"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/privacy/ccpa"
+	"github.com/mxmCherry/openrtb"
 )
 
 const defaultTmax = 10000 // 10 sec
@@ -98,8 +99,8 @@ func (s StrOpenRTBTranslator) requestFromOpenRTB(imp openrtb.Imp, request *openr
 	}
 
 	usPolicySignal := ""
-	if usPolicy, err := ccpa.ReadPolicy(request); err == nil {
-		usPolicySignal = usPolicy.Value
+	if usPolicy, err := ccpa.ReadFromRequest(request); err == nil {
+		usPolicySignal = usPolicy.Consent
 	}
 
 	return &adapters.RequestData{

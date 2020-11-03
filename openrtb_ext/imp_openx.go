@@ -4,6 +4,7 @@ package openrtb_ext
 type ExtImpOpenx struct {
 	ExtImpBase
 	Unit         string                 `json:"unit"`
+	Platform     string                 `json:"platform"`
 	DelDomain    string                 `json:"delDomain"`
 	CustomFloor  float64                `json:"customFloor"`
 	CustomParams map[string]interface{} `json:"customParams"`

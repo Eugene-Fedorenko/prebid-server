@@ -166,7 +166,7 @@ func (adapter *DmxAdapter) MakeRequests(request *openrtb.BidRequest, req *adapte
 	}
 
 	headers := http.Header{}
-	headers.Add("Content-Type", "Application/json;charset=utf-8")
+	headers.Add("Content-Type", "application/json;charset=utf-8")
 	reqBidder := &adapters.RequestData{
 		Method:  "POST",
 		Uri:     endpoint + addParams(sellerId), //adapter.endpoint,

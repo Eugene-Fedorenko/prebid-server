@@ -43,6 +43,7 @@ type adformRequest struct {
 	digitrust     *adformDigitrust
 	currency      string
 	eids          string
+	url           string
 }
 
 type adformDigitrust struct {
@@ -61,6 +62,9 @@ type adformAdUnit struct {
 	PriceType   string      `json:"priceType,omitempty"`
 	KeyValues   string      `json:"mkv,omitempty"`
 	KeyWords    string      `json:"mkw,omitempty"`
+	CDims       string      `json:"cdims,omitempty"`
+	MinPrice    float64     `json:"minp,omitempty"`
+	Url         string      `json:"url,omitempty"`
 
 	bidId      string
 	adUnitCode string
@@ -284,6 +288,10 @@ func (r *adformRequest) buildAdformUrl(URL *url.URL) string {
 		parameters.Add("eids", r.eids)
 	}
 
+	if r.url != "" {
+		parameters.Add("url", r.url)
+	}
+
 	URL.RawQuery = parameters.Encode()
 
 	uri := URL.String()
@@ -300,6 +308,12 @@ func (r *adformRequest) buildAdformUrl(URL *url.URL) string {
 		}
 		if adUnit.KeyWords != "" {
 			buffer.WriteString(fmt.Sprintf("&mkw=%s", adUnit.KeyWords))
+		}
+		if adUnit.CDims != "" {
+			buffer.WriteString(fmt.Sprintf("&cdims=%s", adUnit.CDims))
+		}
+		if adUnit.MinPrice > 0 {
+			buffer.WriteString(fmt.Sprintf("&minp=%.2f", adUnit.MinPrice))
 		}
 		adUnitsParams = append(adUnitsParams, base64.URLEncoding.WithPadding(base64.NoPadding).EncodeToString(buffer.Bytes()))
 	}
@@ -431,6 +445,8 @@ func openRtbToAdformRequest(request *openrtb.BidRequest) (*adformRequest, []erro
 	adUnits := make([]*adformAdUnit, 0, len(request.Imp))
 	errors := make([]error, 0, len(request.Imp))
 	secure := false
+	url := ""
+
 	for _, imp := range request.Imp {
 		params, _, _, err := jsonparser.Get(imp.Ext, "bidder")
 		if err != nil {
@@ -463,6 +479,10 @@ func openRtbToAdformRequest(request *openrtb.BidRequest) (*adformRequest, []erro
 
 		if !secure && imp.Secure != nil && *imp.Secure == 1 {
 			secure = true
+		}
+
+		if url == "" {
+			url = adformAdUnit.Url
 		}
 
 		adformAdUnit.bidId = imp.ID
@@ -544,6 +564,7 @@ func openRtbToAdformRequest(request *openrtb.BidRequest) (*adformRequest, []erro
 		digitrust:     digitrust,
 		currency:      requestCurrency,
 		eids:          eids,
+		url:           url,
 	}, errors
 }
 
