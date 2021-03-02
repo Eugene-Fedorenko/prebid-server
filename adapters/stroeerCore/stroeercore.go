@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/mxmCherry/openrtb"
 	"github.com/prebid/prebid-server/adapters"
+	"github.com/prebid/prebid-server/config"
 	"github.com/prebid/prebid-server/errortypes"
 	"github.com/prebid/prebid-server/openrtb_ext"
 	"net/http"
@@ -119,6 +120,10 @@ func (b *StroeerCoreBidder) MakeRequests(internalRequest *openrtb.BidRequest, re
 	}}, errors
 }
 
-func NewStroeerCoreBidder(endpoint string) *StroeerCoreBidder {
-	return &StroeerCoreBidder{Url: endpoint}
+// Builder builds a new instance of the StroeerCore adapter for the given bidder with the given config.
+func Builder(bidderName openrtb_ext.BidderName, config config.Adapter) (adapters.Bidder, error) {
+	bidder := &StroeerCoreBidder{
+		Url: config.Endpoint,
+	}
+	return bidder, nil
 }
