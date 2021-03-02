@@ -10,9 +10,9 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/prebid_cache_client"
-	"github.com/prebid/prebid-server/stored_requests"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/prebid_cache_client"
+	"github.com/eugene-fedorenko/prebid-server/stored_requests"
 	"github.com/stretchr/testify/assert"
 )
 

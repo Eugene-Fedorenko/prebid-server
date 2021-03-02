@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
 
 	"github.com/stretchr/testify/assert"
 )

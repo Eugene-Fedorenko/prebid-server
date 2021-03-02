@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/mxmCherry/openrtb"
-	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
 )
 
 // Policy represents the CCPA regulatory information from an OpenRTB bid request.

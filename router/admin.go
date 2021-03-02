@@ -5,8 +5,8 @@ import (
 	"net/http/pprof"
 	"time"
 
-	"github.com/prebid/prebid-server/currency"
-	"github.com/prebid/prebid-server/endpoints"
+	"github.com/eugene-fedorenko/prebid-server/currency"
+	"github.com/eugene-fedorenko/prebid-server/endpoints"
 )
 
 func Admin(revision string, rateConverter *currency.RateConverter, rateConverterFetchingInterval time.Duration) *http.ServeMux {

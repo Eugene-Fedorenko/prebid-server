@@ -10,8 +10,8 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/prebid/prebid-server/config"
 	"github.com/prebid/go-gdpr/consentconstants"
+	"github.com/eugene-fedorenko/prebid-server/config"
 )
 
 func TestTCF1FetcherInitialLoad(t *testing.T) {

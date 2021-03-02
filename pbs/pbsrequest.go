@@ -10,12 +10,12 @@ import (
 	"strings"
 	"time"
 
-	"github.com/prebid/prebid-server/cache"
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/stored_requests"
-	"github.com/prebid/prebid-server/usersync"
-	"github.com/prebid/prebid-server/util/httputil"
-	"github.com/prebid/prebid-server/util/iputil"
+	"github.com/eugene-fedorenko/prebid-server/cache"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/stored_requests"
+	"github.com/eugene-fedorenko/prebid-server/usersync"
+	"github.com/eugene-fedorenko/prebid-server/util/httputil"
+	"github.com/eugene-fedorenko/prebid-server/util/iputil"
 
 	"github.com/blang/semver"
 	"github.com/buger/jsonparser"

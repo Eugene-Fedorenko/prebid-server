@@ -4,9 +4,9 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/metrics"
-	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/metrics"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
 	"github.com/prometheus/client_golang/prometheus"
 )
 

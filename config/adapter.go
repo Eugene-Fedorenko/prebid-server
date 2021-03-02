@@ -5,7 +5,7 @@ import (
 	"text/template"
 
 	validator "github.com/asaskevich/govalidator"
-	"github.com/prebid/prebid-server/macros"
+	"github.com/eugene-fedorenko/prebid-server/macros"
 )
 
 type Adapter struct {

@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 
-	"github.com/prebid/prebid-server/errortypes"
+	"github.com/eugene-fedorenko/prebid-server/errortypes"
 )
 
 const (

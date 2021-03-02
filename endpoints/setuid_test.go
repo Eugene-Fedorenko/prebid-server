@@ -10,17 +10,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/gdpr"
-	"github.com/prebid/prebid-server/metrics"
-	"github.com/prebid/prebid-server/privacy"
-	"github.com/prebid/prebid-server/usersync"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/gdpr"
+	"github.com/eugene-fedorenko/prebid-server/metrics"
+	"github.com/eugene-fedorenko/prebid-server/privacy"
+	"github.com/eugene-fedorenko/prebid-server/usersync"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
 
-	analyticsConf "github.com/prebid/prebid-server/analytics/config"
-	metricsConf "github.com/prebid/prebid-server/metrics/config"
+	analyticsConf "github.com/eugene-fedorenko/prebid-server/analytics/config"
+	metricsConf "github.com/eugene-fedorenko/prebid-server/metrics/config"
 )
 
 func TestSetUIDEndpoint(t *testing.T) {

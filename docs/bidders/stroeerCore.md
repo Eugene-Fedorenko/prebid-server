@@ -54,7 +54,7 @@ Be sure this adapter is imported at the top of the `adapter_map.go` file:
 ```go
 import ( 
     // ...
-    "github.com/prebid/prebid-server/adapters/stroeerCore"
+    "github.com/eugene-fedorenko/prebid-server/adapters/stroeerCore"
     // ...
 )
 ```

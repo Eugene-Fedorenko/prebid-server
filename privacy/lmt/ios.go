@@ -4,8 +4,8 @@ import (
 	"strings"
 
 	"github.com/mxmCherry/openrtb"
-	"github.com/prebid/prebid-server/openrtb_ext"
-	"github.com/prebid/prebid-server/util/iosutil"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/util/iosutil"
 )
 
 var (

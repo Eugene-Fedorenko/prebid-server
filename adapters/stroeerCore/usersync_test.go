@@ -1,8 +1,8 @@
 package stroeerCore
 
 import (
-	"github.com/prebid/prebid-server/privacy"
-	"github.com/prebid/prebid-server/privacy/gdpr"
+	"github.com/eugene-fedorenko/prebid-server/privacy"
+	"github.com/eugene-fedorenko/prebid-server/privacy/gdpr"
 	"testing"
 	"text/template"
 

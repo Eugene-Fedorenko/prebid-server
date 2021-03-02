@@ -3,10 +3,10 @@ package config
 import (
 	"time"
 
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/metrics"
-	prometheusmetrics "github.com/prebid/prebid-server/metrics/prometheus"
-	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/metrics"
+	prometheusmetrics "github.com/eugene-fedorenko/prebid-server/metrics/prometheus"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
 	gometrics "github.com/rcrowley/go-metrics"
 	influxdb "github.com/vrischmann/go-metrics-influxdb"
 )

@@ -1,7 +1,7 @@
 package jixie
 
 import (
-	"github.com/prebid/prebid-server/privacy"
+	"github.com/eugene-fedorenko/prebid-server/privacy"
 	"testing"
 	"text/template"
 

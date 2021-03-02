@@ -3,10 +3,10 @@ package adapters
 import (
 	"text/template"
 
-	"github.com/prebid/prebid-server/macros"
-	"github.com/prebid/prebid-server/openrtb_ext"
-	"github.com/prebid/prebid-server/privacy"
-	"github.com/prebid/prebid-server/usersync"
+	"github.com/eugene-fedorenko/prebid-server/macros"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/privacy"
+	"github.com/eugene-fedorenko/prebid-server/usersync"
 )
 
 func GDPRAwareSyncerIDs(syncers map[openrtb_ext.BidderName]usersync.Usersyncer) map[openrtb_ext.BidderName]uint16 {

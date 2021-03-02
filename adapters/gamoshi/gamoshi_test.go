@@ -3,9 +3,9 @@ package gamoshi
 import (
 	"testing"
 
-	"github.com/prebid/prebid-server/adapters/adapterstest"
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/adapters/adapterstest"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
 )
 
 func TestJsonSamplesWithConfiguredURI(t *testing.T) {

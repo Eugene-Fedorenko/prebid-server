@@ -4,7 +4,7 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/prebid/prebid-server/privacy"
+	"github.com/eugene-fedorenko/prebid-server/privacy"
 	"github.com/stretchr/testify/assert"
 )
 

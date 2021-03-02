@@ -6,10 +6,10 @@ import (
 	"net/http"
 
 	"github.com/mxmCherry/openrtb"
-	"github.com/prebid/prebid-server/adapters"
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/errortypes"
-	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/adapters"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/errortypes"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
 )
 
 const unexpectedStatusCodeMessage = "Unexpected status code: %d. Run with request.debug = 1 for more info"

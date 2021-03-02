@@ -10,7 +10,7 @@ import (
 	"time"
 
 	"github.com/mxmCherry/openrtb"
-	"github.com/prebid/prebid-server/analytics"
+	"github.com/eugene-fedorenko/prebid-server/analytics"
 	"github.com/stretchr/testify/assert"
 )
 

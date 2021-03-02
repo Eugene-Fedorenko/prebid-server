@@ -12,14 +12,14 @@ import (
 	"github.com/stretchr/testify/assert"
 
 	sqlmock "github.com/DATA-DOG/go-sqlmock"
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/metrics"
-	"github.com/prebid/prebid-server/stored_requests"
-	"github.com/prebid/prebid-server/stored_requests/backends/empty_fetcher"
-	"github.com/prebid/prebid-server/stored_requests/backends/http_fetcher"
-	"github.com/prebid/prebid-server/stored_requests/events"
-	httpEvents "github.com/prebid/prebid-server/stored_requests/events/http"
 	"github.com/julienschmidt/httprouter"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/metrics"
+	"github.com/eugene-fedorenko/prebid-server/stored_requests"
+	"github.com/eugene-fedorenko/prebid-server/stored_requests/backends/empty_fetcher"
+	"github.com/eugene-fedorenko/prebid-server/stored_requests/backends/http_fetcher"
+	"github.com/eugene-fedorenko/prebid-server/stored_requests/events"
+	httpEvents "github.com/eugene-fedorenko/prebid-server/stored_requests/events/http"
 	"github.com/stretchr/testify/mock"
 )
 

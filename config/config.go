@@ -10,8 +10,8 @@ import (
 	"time"
 
 	"github.com/golang/glog"
-	"github.com/prebid/prebid-server/errortypes"
-	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/errortypes"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
 	"github.com/spf13/viper"
 )
 
@@ -794,7 +794,7 @@ func SetupViper(v *viper.Viper, filename string) {
 	}
 
 	// Disabling adapters by default that require some specific config params.
-	// If you're using one of these, make sure you check out the documentation (https://github.com/prebid/prebid-server/tree/master/docs/bidders)
+	// If you're using one of these, make sure you check out the documentation (https://github.com/eugene-fedorenko/prebid-server/tree/master/docs/bidders)
 	// for them and specify all the parameters they need for them to work correctly.
 	v.SetDefault("adapters.33across.endpoint", "http://ssc.33across.com/api/v1/hb")
 	v.SetDefault("adapters.33across.partner_id", "")

@@ -11,17 +11,17 @@ import (
 	"strconv"
 
 	"github.com/buger/jsonparser"
-	"github.com/prebid/prebid-server/analytics"
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/gdpr"
-	"github.com/prebid/prebid-server/metrics"
-	"github.com/prebid/prebid-server/openrtb_ext"
-	"github.com/prebid/prebid-server/privacy"
-	"github.com/prebid/prebid-server/privacy/ccpa"
-	gdprPrivacy "github.com/prebid/prebid-server/privacy/gdpr"
-	"github.com/prebid/prebid-server/usersync"
 	"github.com/golang/glog"
 	"github.com/julienschmidt/httprouter"
+	"github.com/eugene-fedorenko/prebid-server/analytics"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/gdpr"
+	"github.com/eugene-fedorenko/prebid-server/metrics"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/privacy"
+	"github.com/eugene-fedorenko/prebid-server/privacy/ccpa"
+	gdprPrivacy "github.com/eugene-fedorenko/prebid-server/privacy/gdpr"
+	"github.com/eugene-fedorenko/prebid-server/usersync"
 )
 
 func NewCookieSyncEndpoint(

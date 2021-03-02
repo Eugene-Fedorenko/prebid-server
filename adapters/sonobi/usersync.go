@@ -1,8 +1,8 @@
 package sonobi
 
 import (
-	"github.com/prebid/prebid-server/adapters"
-	"github.com/prebid/prebid-server/usersync"
+	"github.com/eugene-fedorenko/prebid-server/adapters"
+	"github.com/eugene-fedorenko/prebid-server/usersync"
 	"text/template"
 )
 

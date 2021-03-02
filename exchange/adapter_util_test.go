@@ -7,14 +7,14 @@ import (
 	"testing"
 
 	"github.com/mxmCherry/openrtb"
-	"github.com/prebid/prebid-server/adapters"
-	"github.com/prebid/prebid-server/adapters/appnexus"
-	"github.com/prebid/prebid-server/adapters/lifestreet"
-	"github.com/prebid/prebid-server/adapters/rubicon"
-	"github.com/prebid/prebid-server/config"
-	"github.com/prebid/prebid-server/currency"
-	metrics "github.com/prebid/prebid-server/metrics/config"
-	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/eugene-fedorenko/prebid-server/adapters"
+	"github.com/eugene-fedorenko/prebid-server/adapters/appnexus"
+	"github.com/eugene-fedorenko/prebid-server/adapters/lifestreet"
+	"github.com/eugene-fedorenko/prebid-server/adapters/rubicon"
+	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/currency"
+	metrics "github.com/eugene-fedorenko/prebid-server/metrics/config"
+	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
 	"github.com/stretchr/testify/assert"
 )
 

@@ -7,7 +7,7 @@ import (
 
 	"github.com/golang/glog"
 	"github.com/julienschmidt/httprouter"
-	"github.com/prebid/prebid-server/config"
+	"github.com/eugene-fedorenko/prebid-server/config"
 )
 
 // NewBiddersEndpoint builds a handler for the /info/bidders endpoint.
