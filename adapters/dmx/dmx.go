@@ -4,34 +4,49 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"github.com/mxmCherry/openrtb"
-	"github.com/prebid/prebid-server/adapters"
-	"github.com/prebid/prebid-server/errortypes"
-	"github.com/prebid/prebid-server/openrtb_ext"
 	"net/http"
 	"net/url"
 	"strings"
+
+	"github.com/mxmCherry/openrtb"
+	"github.com/prebid/prebid-server/adapters"
+	"github.com/prebid/prebid-server/config"
+	"github.com/prebid/prebid-server/errortypes"
+	"github.com/prebid/prebid-server/openrtb_ext"
 )
 
 type DmxAdapter struct {
 	endpoint string
 }
 
-func NewDmxBidder(endpoint string) *DmxAdapter {
-	return &DmxAdapter{endpoint: endpoint}
+// Builder builds a new instance of the DistrictM DMX adapter for the given bidder with the given config.
+func Builder(bidderName openrtb_ext.BidderName, config config.Adapter) (adapters.Bidder, error) {
+	bidder := &DmxAdapter{
+		endpoint: config.Endpoint,
+	}
+	return bidder, nil
 }
 
 type dmxExt struct {
 	Bidder dmxParams `json:"bidder"`
 }
 
+type dmxPubExt struct {
+	Dmx dmxPubExtId `json:"dmx,omitempty"`
+}
+
+type dmxPubExtId struct {
+	Id string `json:"id,omitempty"`
+}
+
 type dmxParams struct {
 	openrtb_ext.ExtImpBase
-	TagId       string `json:"tagid,omitempty"`
-	DmxId       string `json:"dmxid,omitempty"`
-	MemberId    string `json:"memberid,omitempty"`
-	PublisherId string `json:"publisher_id,omitempty"`
-	SellerId    string `json:"seller_id,omitempty"`
+	TagId       string  `json:"tagid,omitempty"`
+	DmxId       string  `json:"dmxid,omitempty"`
+	MemberId    string  `json:"memberid,omitempty"`
+	PublisherId string  `json:"publisher_id,omitempty"`
+	SellerId    string  `json:"seller_id,omitempty"`
+	Bidfloor    float64 `json:"bidfloor,omitempty"`
 }
 
 func UserSellerOrPubId(str1, str2 string) string {
@@ -50,6 +65,7 @@ func (adapter *DmxAdapter) MakeRequests(request *openrtb.BidRequest, req *adapte
 	var anyHasId = false
 	var reqCopy openrtb.BidRequest = *request
 	var dmxReq *openrtb.BidRequest = &reqCopy
+	var dmxRawPubId dmxPubExt
 
 	if request.User == nil {
 		if request.App == nil {
@@ -72,6 +88,16 @@ func (adapter *DmxAdapter) MakeRequests(request *openrtb.BidRequest, req *adapte
 		appPublisherCopy := *request.App.Publisher
 		dmxReq.App = &appCopy
 		dmxReq.App.Publisher = &appPublisherCopy
+		if dmxReq.App.Publisher.ID == "" {
+			dmxReq.App.Publisher.ID = publisherId
+		}
+		dmxRawPubId.Dmx.Id = UserSellerOrPubId(rootExtInfo.Bidder.PublisherId, rootExtInfo.Bidder.MemberId)
+		ext, err := json.Marshal(dmxRawPubId)
+		if err != nil {
+			errs = append(errs, fmt.Errorf("unable to marshal ext, %v", err))
+			return nil, errs
+		}
+		dmxReq.App.Publisher.Ext = ext
 		if dmxReq.App.ID != "" {
 			anyHasId = true
 		}
@@ -85,7 +111,16 @@ func (adapter *DmxAdapter) MakeRequests(request *openrtb.BidRequest, req *adapte
 		dmxReq.Site = &siteCopy
 		dmxReq.Site.Publisher = &sitePublisherCopy
 		if dmxReq.Site.Publisher != nil {
-			dmxReq.Site.Publisher.ID = publisherId
+			if dmxReq.Site.Publisher.ID == "" {
+				dmxReq.Site.Publisher.ID = publisherId
+			}
+			dmxRawPubId.Dmx.Id = UserSellerOrPubId(rootExtInfo.Bidder.PublisherId, rootExtInfo.Bidder.MemberId)
+			ext, err := json.Marshal(dmxRawPubId)
+			if err != nil {
+				errs = append(errs, fmt.Errorf("unable to marshal ext, %v", err))
+				return nil, errs
+			}
+			dmxReq.Site.Publisher.Ext = ext
 		} else {
 			dmxReq.Site.Publisher = &openrtb.Publisher{ID: publisherId}
 		}
@@ -173,6 +208,7 @@ func (adapter *DmxAdapter) MakeRequests(request *openrtb.BidRequest, req *adapte
 		Body:    oJson,
 		Headers: headers,
 	}
+
 	reqsBidder = append(reqsBidder, reqBidder)
 	return
 }
@@ -226,35 +262,32 @@ func (adapter *DmxAdapter) MakeBids(request *openrtb.BidRequest, externalRequest
 }
 
 func fetchParams(params dmxExt, inst openrtb.Imp, ins openrtb.Imp, imps []openrtb.Imp, banner *openrtb.Banner, video *openrtb.Video, intVal int8) []openrtb.Imp {
+	var tempimp openrtb.Imp
+	tempimp = inst
+	if params.Bidder.Bidfloor != 0 {
+		tempimp.BidFloor = params.Bidder.Bidfloor
+	}
 	if params.Bidder.TagId != "" {
-		ins = openrtb.Imp{
-			ID:     inst.ID,
-			TagID:  params.Bidder.TagId,
-			Ext:    inst.Ext,
-			Secure: &intVal,
-		}
+		tempimp.TagID = params.Bidder.TagId
+		tempimp.Secure = &intVal
 	}
 
 	if params.Bidder.DmxId != "" {
-		ins = openrtb.Imp{
-			ID:     inst.ID,
-			TagID:  params.Bidder.DmxId,
-			Ext:    inst.Ext,
-			Secure: &intVal,
-		}
+		tempimp.TagID = params.Bidder.DmxId
+		tempimp.Secure = &intVal
 	}
 	if banner != nil {
-		ins.Banner = banner
+		tempimp.Banner = banner
 	}
 
 	if video != nil {
-		ins.Video = video
+		tempimp.Video = video
 	}
 
-	if ins.TagID == "" {
+	if tempimp.TagID == "" {
 		return imps
 	}
-	imps = append(imps, ins)
+	imps = append(imps, tempimp)
 	return imps
 }
 
