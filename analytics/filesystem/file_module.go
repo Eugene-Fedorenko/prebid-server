@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/chasex/glog"
-	"github.com/eugene-fedorenko/prebid-server/analytics"
+	"github.com/prebid/prebid-server/analytics"
 )
 
 type RequestType string

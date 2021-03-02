@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 
 	"github.com/mxmCherry/openrtb"
-	"github.com/eugene-fedorenko/prebid-server/pbs"
-	"github.com/eugene-fedorenko/prebid-server/usersync"
+	"github.com/prebid/prebid-server/pbs"
+	"github.com/prebid/prebid-server/usersync"
 	"github.com/stretchr/testify/assert"
 )
 

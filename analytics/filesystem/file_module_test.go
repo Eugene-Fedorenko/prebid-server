@@ -1,15 +1,15 @@
 package filesystem
 
 import (
-	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/prebid/prebid-server/config"
 	"net/http"
 	"os"
 	"strings"
 	"testing"
 
 	"github.com/mxmCherry/openrtb"
-	"github.com/eugene-fedorenko/prebid-server/analytics"
-	"github.com/eugene-fedorenko/prebid-server/usersync"
+	"github.com/prebid/prebid-server/analytics"
+	"github.com/prebid/prebid-server/usersync"
 )
 
 const TEST_DIR string = "testFiles"

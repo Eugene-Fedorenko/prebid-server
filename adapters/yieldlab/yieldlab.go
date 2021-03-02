@@ -12,9 +12,9 @@ import (
 	"github.com/mxmCherry/openrtb"
 	"golang.org/x/text/currency"
 
-	"github.com/eugene-fedorenko/prebid-server/adapters"
-	"github.com/eugene-fedorenko/prebid-server/errortypes"
-	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
+	"github.com/prebid/prebid-server/adapters"
+	"github.com/prebid/prebid-server/errortypes"
+	"github.com/prebid/prebid-server/openrtb_ext"
 )
 
 // YieldlabAdapter connects the Yieldlab API to prebid server

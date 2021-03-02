@@ -3,8 +3,8 @@ package prometheusmetrics
 import (
 	"strconv"
 
-	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
-	"github.com/eugene-fedorenko/prebid-server/pbsmetrics"
+	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/prebid/prebid-server/pbsmetrics"
 )
 
 func actionsAsString() []string {

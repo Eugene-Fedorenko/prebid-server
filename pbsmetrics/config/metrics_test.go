@@ -4,9 +4,9 @@ import (
 	"testing"
 	"time"
 
-	mainConfig "github.com/eugene-fedorenko/prebid-server/config"
-	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
-	"github.com/eugene-fedorenko/prebid-server/pbsmetrics"
+	mainConfig "github.com/prebid/prebid-server/config"
+	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/prebid/prebid-server/pbsmetrics"
 	"github.com/rcrowley/go-metrics"
 )
 

@@ -12,9 +12,9 @@ import (
 
 	uuid "github.com/gofrs/uuid"
 	"github.com/mxmCherry/openrtb"
-	"github.com/eugene-fedorenko/prebid-server/config"
-	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
-	"github.com/eugene-fedorenko/prebid-server/prebid_cache_client"
+	"github.com/prebid/prebid-server/config"
+	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/prebid/prebid-server/prebid_cache_client"
 )
 
 type DebugLog struct {

@@ -7,7 +7,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/eugene-fedorenko/prebid-server/currencies"
+	"github.com/prebid/prebid-server/currencies"
 )
 
 func TestUnMarshallRates(t *testing.T) {

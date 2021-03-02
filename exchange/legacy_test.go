@@ -12,11 +12,11 @@ import (
 	"github.com/buger/jsonparser"
 	"github.com/evanphx/json-patch"
 	"github.com/mxmCherry/openrtb"
-	"github.com/eugene-fedorenko/prebid-server/adapters"
-	"github.com/eugene-fedorenko/prebid-server/currencies"
-	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
-	"github.com/eugene-fedorenko/prebid-server/pbs"
-	"github.com/eugene-fedorenko/prebid-server/usersync"
+	"github.com/prebid/prebid-server/adapters"
+	"github.com/prebid/prebid-server/currencies"
+	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/prebid/prebid-server/pbs"
+	"github.com/prebid/prebid-server/usersync"
 )
 
 func TestSiteVideo(t *testing.T) {

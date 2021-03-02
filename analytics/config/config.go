@@ -1,11 +1,11 @@
 package config
 
 import (
-	"github.com/eugene-fedorenko/prebid-server/analytics"
-	"github.com/eugene-fedorenko/prebid-server/analytics/clients"
-	"github.com/eugene-fedorenko/prebid-server/analytics/filesystem"
-	"github.com/eugene-fedorenko/prebid-server/analytics/pubstack"
-	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/prebid/prebid-server/analytics"
+	"github.com/prebid/prebid-server/analytics/clients"
+	"github.com/prebid/prebid-server/analytics/filesystem"
+	"github.com/prebid/prebid-server/analytics/pubstack"
+	"github.com/prebid/prebid-server/config"
 	"github.com/golang/glog"
 )
 

@@ -4,10 +4,10 @@ import (
 	"testing"
 	"text/template"
 
-	"github.com/eugene-fedorenko/prebid-server/privacy/ccpa"
+	"github.com/prebid/prebid-server/privacy/ccpa"
 
-	"github.com/eugene-fedorenko/prebid-server/privacy"
-	"github.com/eugene-fedorenko/prebid-server/privacy/gdpr"
+	"github.com/prebid/prebid-server/privacy"
+	"github.com/prebid/prebid-server/privacy/gdpr"
 	"github.com/stretchr/testify/assert"
 )
 

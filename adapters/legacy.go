@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/eugene-fedorenko/prebid-server/pbs"
-	"github.com/eugene-fedorenko/prebid-server/ssl"
+	"github.com/prebid/prebid-server/pbs"
+	"github.com/prebid/prebid-server/ssl"
 )
 
 // This file contains some deprecated, legacy types.

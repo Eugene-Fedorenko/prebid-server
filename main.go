@@ -6,12 +6,12 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/eugene-fedorenko/prebid-server/config"
-	"github.com/eugene-fedorenko/prebid-server/currencies"
-	pbc "github.com/eugene-fedorenko/prebid-server/prebid_cache_client"
-	"github.com/eugene-fedorenko/prebid-server/router"
-	"github.com/eugene-fedorenko/prebid-server/server"
-	"github.com/eugene-fedorenko/prebid-server/util/task"
+	"github.com/prebid/prebid-server/config"
+	"github.com/prebid/prebid-server/currencies"
+	pbc "github.com/prebid/prebid-server/prebid_cache_client"
+	"github.com/prebid/prebid-server/router"
+	"github.com/prebid/prebid-server/server"
+	"github.com/prebid/prebid-server/util/task"
 
 	"github.com/golang/glog"
 	"github.com/spf13/viper"

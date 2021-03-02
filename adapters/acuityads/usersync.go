@@ -3,8 +3,8 @@ package acuityads
 import (
 	"text/template"
 
-	"github.com/eugene-fedorenko/prebid-server/adapters"
-	"github.com/eugene-fedorenko/prebid-server/usersync"
+	"github.com/prebid/prebid-server/adapters"
+	"github.com/prebid/prebid-server/usersync"
 )
 
 func NewAcuityAdsSyncer(temp *template.Template) usersync.Usersyncer {

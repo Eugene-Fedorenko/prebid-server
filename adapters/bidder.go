@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	"github.com/mxmCherry/openrtb"
-	"github.com/eugene-fedorenko/prebid-server/errortypes"
-	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
+	"github.com/prebid/prebid-server/errortypes"
+	"github.com/prebid/prebid-server/openrtb_ext"
 )
 
 // Bidder describes how to connect to external demand.

@@ -10,7 +10,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/eugene-fedorenko/prebid-server/config"
+	"github.com/prebid/prebid-server/config"
 	"github.com/prebid/go-gdpr/consentconstants"
 )
 

@@ -6,7 +6,7 @@ import (
 	"sync"
 
 	"github.com/coocood/freecache"
-	"github.com/eugene-fedorenko/prebid-server/stored_requests"
+	"github.com/prebid/prebid-server/stored_requests"
 	"github.com/golang/glog"
 )
 

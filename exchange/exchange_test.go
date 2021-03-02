@@ -15,17 +15,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/eugene-fedorenko/prebid-server/adapters"
-	"github.com/eugene-fedorenko/prebid-server/config"
-	"github.com/eugene-fedorenko/prebid-server/currencies"
-	"github.com/eugene-fedorenko/prebid-server/gdpr"
-	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
-	"github.com/eugene-fedorenko/prebid-server/pbsmetrics"
-	metricsConf "github.com/eugene-fedorenko/prebid-server/pbsmetrics/config"
-	metricsConfig "github.com/eugene-fedorenko/prebid-server/pbsmetrics/config"
-	pbc "github.com/eugene-fedorenko/prebid-server/prebid_cache_client"
-	"github.com/eugene-fedorenko/prebid-server/stored_requests"
-	"github.com/eugene-fedorenko/prebid-server/stored_requests/backends/file_fetcher"
+	"github.com/prebid/prebid-server/adapters"
+	"github.com/prebid/prebid-server/config"
+	"github.com/prebid/prebid-server/currencies"
+	"github.com/prebid/prebid-server/gdpr"
+	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/prebid/prebid-server/pbsmetrics"
+	metricsConf "github.com/prebid/prebid-server/pbsmetrics/config"
+	metricsConfig "github.com/prebid/prebid-server/pbsmetrics/config"
+	pbc "github.com/prebid/prebid-server/prebid_cache_client"
+	"github.com/prebid/prebid-server/stored_requests"
+	"github.com/prebid/prebid-server/stored_requests/backends/file_fetcher"
 
 	"github.com/buger/jsonparser"
 	"github.com/mxmCherry/openrtb"
@@ -69,15 +69,15 @@ func TestNewExchange(t *testing.T) {
 // and check whether the returned request successfully prints any '&' characters as it should
 // To do so, we:
 // 	1) Write the endpoint adapter URL with an '&' character into a new config,Configuration struct
-// 	   as specified in https://github.com/eugene-fedorenko/prebid-server/issues/465
+// 	   as specified in https://github.com/prebid/prebid-server/issues/465
 // 	2) Initialize a new exchange with said configuration
 // 	3) Build all the parameters e.buildBidResponse(ctx.Background(), liveA... ) needs including the
-// 	   sample request as specified in https://github.com/eugene-fedorenko/prebid-server/issues/465
+// 	   sample request as specified in https://github.com/prebid/prebid-server/issues/465
 // 	4) Build a BidResponse struct using exchange.buildBidResponse(ctx.Background(), liveA... )
 // 	5) Assert we have no '&' characters in the response that exchange.buildBidResponse returns
 func TestCharacterEscape(t *testing.T) {
 	/* 1) Adapter with a '& char in its endpoint property 		*/
-	/*    https://github.com/eugene-fedorenko/prebid-server/issues/465	*/
+	/*    https://github.com/prebid/prebid-server/issues/465	*/
 	cfg := &config.Configuration{
 		Adapters: make(map[string]config.Adapter, 1),
 	}
@@ -103,7 +103,7 @@ func TestCharacterEscape(t *testing.T) {
 	adapterBids := make(map[openrtb_ext.BidderName]*pbsOrtbSeatBid, 1)
 	adapterBids["appnexus"] = &pbsOrtbSeatBid{currency: "USD"}
 
-	//An openrtb.BidRequest struct as specified in https://github.com/eugene-fedorenko/prebid-server/issues/465
+	//An openrtb.BidRequest struct as specified in https://github.com/prebid/prebid-server/issues/465
 	bidRequest := &openrtb.BidRequest{
 		ID: "some-request-id",
 		Imp: []openrtb.Imp{{

@@ -22,20 +22,20 @@ import (
 	"github.com/mxmCherry/openrtb"
 	"github.com/mxmCherry/openrtb/native"
 	nativeRequests "github.com/mxmCherry/openrtb/native/request"
-	accountService "github.com/eugene-fedorenko/prebid-server/account"
-	"github.com/eugene-fedorenko/prebid-server/analytics"
-	"github.com/eugene-fedorenko/prebid-server/config"
-	"github.com/eugene-fedorenko/prebid-server/errortypes"
-	"github.com/eugene-fedorenko/prebid-server/exchange"
-	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
-	"github.com/eugene-fedorenko/prebid-server/pbsmetrics"
-	"github.com/eugene-fedorenko/prebid-server/prebid_cache_client"
-	"github.com/eugene-fedorenko/prebid-server/privacy/ccpa"
-	"github.com/eugene-fedorenko/prebid-server/stored_requests"
-	"github.com/eugene-fedorenko/prebid-server/stored_requests/backends/empty_fetcher"
-	"github.com/eugene-fedorenko/prebid-server/usersync"
-	"github.com/eugene-fedorenko/prebid-server/util/httputil"
-	"github.com/eugene-fedorenko/prebid-server/util/iputil"
+	accountService "github.com/prebid/prebid-server/account"
+	"github.com/prebid/prebid-server/analytics"
+	"github.com/prebid/prebid-server/config"
+	"github.com/prebid/prebid-server/errortypes"
+	"github.com/prebid/prebid-server/exchange"
+	"github.com/prebid/prebid-server/openrtb_ext"
+	"github.com/prebid/prebid-server/pbsmetrics"
+	"github.com/prebid/prebid-server/prebid_cache_client"
+	"github.com/prebid/prebid-server/privacy/ccpa"
+	"github.com/prebid/prebid-server/stored_requests"
+	"github.com/prebid/prebid-server/stored_requests/backends/empty_fetcher"
+	"github.com/prebid/prebid-server/usersync"
+	"github.com/prebid/prebid-server/util/httputil"
+	"github.com/prebid/prebid-server/util/iputil"
 	"golang.org/x/net/publicsuffix"
 )
 
@@ -766,7 +766,7 @@ func (deps *endpointDeps) validateImpExt(imp *openrtb.Imp, aliases map[string]st
 	// NOTE: This is not part of the official API yet, so we are not expecting clients
 	// to migrate from imp[...].ext.${BIDDER} to imp[...].ext.prebid.bidder.${BIDDER}
 	// at this time
-	// https://github.com/eugene-fedorenko/prebid-server/pull/846#issuecomment-476352224
+	// https://github.com/prebid/prebid-server/pull/846#issuecomment-476352224
 	if rawPrebidExt, ok := bidderExts[openrtb_ext.PrebidExtKey]; ok {
 		var prebidExt openrtb_ext.ExtImpPrebid
 		if err := json.Unmarshal(rawPrebidExt, &prebidExt); err == nil && prebidExt.Bidder != nil {

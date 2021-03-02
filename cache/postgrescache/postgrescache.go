@@ -7,11 +7,11 @@ import (
 	"encoding/gob"
 	"time"
 
-	"github.com/eugene-fedorenko/prebid-server/stored_requests"
+	"github.com/prebid/prebid-server/stored_requests"
 
 	"github.com/coocood/freecache"
 	"github.com/lib/pq"
-	"github.com/eugene-fedorenko/prebid-server/cache"
+	"github.com/prebid/prebid-server/cache"
 )
 
 type CacheConfig struct {

@@ -3,7 +3,7 @@ package adpone
 import (
 	"testing"
 
-	"github.com/eugene-fedorenko/prebid-server/adapters/adapterstest"
+	"github.com/prebid/prebid-server/adapters/adapterstest"
 )
 
 const testsDir = "adponetest"

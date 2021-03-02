@@ -5,8 +5,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/eugene-fedorenko/prebid-server/adapters"
-	"github.com/eugene-fedorenko/prebid-server/adapters/adapterstest"
+	"github.com/prebid/prebid-server/adapters"
+	"github.com/prebid/prebid-server/adapters/adapterstest"
 	"github.com/stretchr/testify/assert"
 )
 

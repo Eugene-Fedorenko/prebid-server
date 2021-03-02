@@ -5,8 +5,8 @@ import (
 	"net/http"
 
 	"github.com/prebid/go-gdpr/vendorlist"
-	"github.com/eugene-fedorenko/prebid-server/config"
-	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
+	"github.com/prebid/prebid-server/config"
+	"github.com/prebid/prebid-server/openrtb_ext"
 )
 
 type Permissions interface {

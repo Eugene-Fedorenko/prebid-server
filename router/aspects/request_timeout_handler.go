@@ -2,8 +2,8 @@ package aspects
 
 import (
 	"github.com/julienschmidt/httprouter"
-	"github.com/eugene-fedorenko/prebid-server/config"
-	"github.com/eugene-fedorenko/prebid-server/pbsmetrics"
+	"github.com/prebid/prebid-server/config"
+	"github.com/prebid/prebid-server/pbsmetrics"
 	"net/http"
 	"strconv"
 	"time"

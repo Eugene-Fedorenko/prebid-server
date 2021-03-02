@@ -1,7 +1,7 @@
 package dmx
 
 import (
-	"github.com/eugene-fedorenko/prebid-server/privacy"
+	"github.com/prebid/prebid-server/privacy"
 	"testing"
 	"text/template"
 

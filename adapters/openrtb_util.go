@@ -3,8 +3,8 @@ package adapters
 import (
 	"encoding/json"
 
-	"github.com/eugene-fedorenko/prebid-server/errortypes"
-	"github.com/eugene-fedorenko/prebid-server/pbs"
+	"github.com/prebid/prebid-server/errortypes"
+	"github.com/prebid/prebid-server/pbs"
 
 	"github.com/mxmCherry/openrtb"
 )

@@ -10,7 +10,7 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/eugene-fedorenko/prebid-server/stored_requests"
+	"github.com/prebid/prebid-server/stored_requests"
 
 	"github.com/golang/glog"
 	"golang.org/x/net/context/ctxhttp"

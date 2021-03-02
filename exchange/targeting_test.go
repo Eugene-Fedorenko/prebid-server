@@ -8,18 +8,18 @@ import (
 	"testing"
 	"time"
 
-	"github.com/eugene-fedorenko/prebid-server/config"
-	"github.com/eugene-fedorenko/prebid-server/currencies"
+	"github.com/prebid/prebid-server/config"
+	"github.com/prebid/prebid-server/currencies"
 
-	"github.com/eugene-fedorenko/prebid-server/gdpr"
+	"github.com/prebid/prebid-server/gdpr"
 
-	"github.com/eugene-fedorenko/prebid-server/pbsmetrics"
-	metricsConf "github.com/eugene-fedorenko/prebid-server/pbsmetrics/config"
-	metricsConfig "github.com/eugene-fedorenko/prebid-server/pbsmetrics/config"
+	"github.com/prebid/prebid-server/pbsmetrics"
+	metricsConf "github.com/prebid/prebid-server/pbsmetrics/config"
+	metricsConfig "github.com/prebid/prebid-server/pbsmetrics/config"
 
 	"github.com/mxmCherry/openrtb"
-	"github.com/eugene-fedorenko/prebid-server/adapters"
-	"github.com/eugene-fedorenko/prebid-server/openrtb_ext"
+	"github.com/prebid/prebid-server/adapters"
+	"github.com/prebid/prebid-server/openrtb_ext"
 	"github.com/stretchr/testify/assert"
 )
 

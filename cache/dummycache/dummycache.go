@@ -3,7 +3,7 @@ package dummycache
 import (
 	"fmt"
 
-	"github.com/eugene-fedorenko/prebid-server/cache"
+	"github.com/prebid/prebid-server/cache"
 )
 
 // Cache dummy config that will echo back results

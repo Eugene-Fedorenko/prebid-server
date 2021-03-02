@@ -1,7 +1,7 @@
 package engagebdr
 
 import (
-	"github.com/eugene-fedorenko/prebid-server/adapters/adapterstest"
+	"github.com/prebid/prebid-server/adapters/adapterstest"
 	"net/http"
 	"testing"
 )

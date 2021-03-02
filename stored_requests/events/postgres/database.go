@@ -9,10 +9,10 @@ import (
 	"time"
 
 	"github.com/golang/glog"
-	"github.com/eugene-fedorenko/prebid-server/config"
-	"github.com/eugene-fedorenko/prebid-server/pbsmetrics"
-	"github.com/eugene-fedorenko/prebid-server/stored_requests/events"
-	"github.com/eugene-fedorenko/prebid-server/util/timeutil"
+	"github.com/prebid/prebid-server/config"
+	"github.com/prebid/prebid-server/pbsmetrics"
+	"github.com/prebid/prebid-server/stored_requests/events"
+	"github.com/prebid/prebid-server/util/timeutil"
 )
 
 func bytesNull() []byte {

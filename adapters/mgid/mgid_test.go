@@ -1,7 +1,7 @@
 package mgid
 
 import (
-	"github.com/eugene-fedorenko/prebid-server/adapters/adapterstest"
+	"github.com/prebid/prebid-server/adapters/adapterstest"
 	"testing"
 )
 

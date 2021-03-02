@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/golang/glog"
-	"github.com/eugene-fedorenko/prebid-server/pbsmetrics"
+	"github.com/prebid/prebid-server/pbsmetrics"
 )
 
 // monitorableListener tracks any opened connections in the metrics.
