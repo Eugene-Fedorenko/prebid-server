@@ -97,8 +97,11 @@ func (a *SmartAdserverAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo
 			continue
 		}
 
-		url, err := a.BuildEndpointURL(&smartadserverExt)
-		if url == "" {
+		endpoint := smartadserverExt.Endpoint
+		if len(endpoint) == 0 {
+			endpoint, err = a.BuildEndpointURL(&smartadserverExt)
+		}
+		if endpoint == "" {
 			errs = append(errs, err)
 			continue
 		}
@@ -108,7 +111,7 @@ func (a *SmartAdserverAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo
 		headers.Add("Accept", "application/json")
 		adapterRequests = append(adapterRequests, &adapters.RequestData{
 			Method:  "POST",
-			Uri:     url,
+			Uri:     endpoint,
 			Body:    reqJSON,
 			Headers: headers,
 		})

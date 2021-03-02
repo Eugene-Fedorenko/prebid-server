@@ -17,6 +17,8 @@ type ConversantAdapter struct {
 }
 
 func (c ConversantAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapters.ExtraRequestInfo) ([]*adapters.RequestData, []error) {
+	endpoint := c.URI
+
 	for i := 0; i < len(request.Imp); i++ {
 		var bidderExt adapters.ExtImpBidder
 		if err := json.Unmarshal(request.Imp[i].Ext, &bidderExt); err != nil {
@@ -36,6 +38,10 @@ func (c ConversantAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *ad
 			return nil, []error{&errortypes.BadInput{
 				Message: fmt.Sprintf("Impression[%d] requires ext.bidder.site_id", i),
 			}}
+		}
+
+		if len(cnvrExt.Endpoint) > 0 {
+			endpoint = cnvrExt.Endpoint
 		}
 
 		if i == 0 {
@@ -65,7 +71,7 @@ func (c ConversantAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *ad
 
 	return []*adapters.RequestData{{
 		Method:  "POST",
-		Uri:     c.URI,
+		Uri:     endpoint,
 		Body:    data,
 		Headers: headers,
 	}}, nil

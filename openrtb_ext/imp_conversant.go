@@ -1,6 +1,7 @@
 package openrtb_ext
 
 type ExtImpConversant struct {
+	ExtImpBase
 	SiteID      string   `json:"site_id"`
 	Secure      *int8    `json:"secure"`
 	TagID       string   `json:"tag_id"`

@@ -76,6 +76,11 @@ func (a *VerizonMediaAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo 
 			continue
 		}
 
+		endpoint := a.URI
+		if len(verizonMediaExt.Endpoint) > 0 {
+			endpoint = verizonMediaExt.Endpoint
+		}
+
 		// Split up multi-impression requests into multiple requests so that
 		// each split request is only associated to a single impression
 		reqCopy := *request
@@ -102,7 +107,7 @@ func (a *VerizonMediaAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo 
 
 		reqs = append(reqs, &adapters.RequestData{
 			Method:  "POST",
-			Uri:     a.URI,
+			Uri:     endpoint,
 			Body:    reqJSON,
 			Headers: headers,
 		})
