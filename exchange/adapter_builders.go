@@ -84,6 +84,7 @@ import (
 	"github.com/eugene-fedorenko/prebid-server/adapters/somoaudience"
 	"github.com/eugene-fedorenko/prebid-server/adapters/sonobi"
 	"github.com/eugene-fedorenko/prebid-server/adapters/sovrn"
+	"github.com/eugene-fedorenko/prebid-server/adapters/stroeerCore"
 	"github.com/eugene-fedorenko/prebid-server/adapters/synacormedia"
 	"github.com/eugene-fedorenko/prebid-server/adapters/tappx"
 	"github.com/eugene-fedorenko/prebid-server/adapters/telaria"
