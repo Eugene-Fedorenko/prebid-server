@@ -34,6 +34,25 @@ func (a *NoBidAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapte
 		}}
 	}
 
+	var bidderExt adapters.ExtImpBidder
+	if err := json.Unmarshal(request.Imp[0].Ext, &bidderExt); err != nil {
+		return nil, []error{&errortypes.BadInput{
+			Message: err.Error(),
+		}}
+	}
+
+	var nobidExt openrtb_ext.ExtImpBase
+	if err := json.Unmarshal(bidderExt.Bidder, &nobidExt); err != nil {
+		return nil,[]error{&errortypes.BadInput{
+			Message: fmt.Sprintf("invalid ImpExt. ID: %s", request.Imp[0].ID),
+		}}
+	}
+
+	endpoint := a.endpoint
+	if len(nobidExt.Endpoint) > 0 {
+		endpoint = nobidExt.Endpoint
+	}
+
 	data, err := json.Marshal(request)
 	if err != nil {
 		return nil, []error{err}
@@ -45,7 +64,7 @@ func (a *NoBidAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapte
 
 	return []*adapters.RequestData{{
 		Method:  "POST",
-		Uri:     a.endpoint,
+		Uri:     endpoint,
 		Body:    data,
 		Headers: headers,
 	}}, []error{}
