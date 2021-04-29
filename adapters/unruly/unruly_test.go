@@ -87,7 +87,7 @@ func TestReplaceImp(t *testing.T) {
 func TestConvertBidderNameInExt(t *testing.T) {
 	imp := openrtb.Imp{Ext: json.RawMessage(`{"bidder": {"uuid": "1234", "siteid": "aSiteID"}}`)}
 
-	actualImp, err := convertBidderNameInExt(&imp)
+	actualImp, _, err := convertBidderNameInExt(&imp)
 
 	if err != nil {
 		t.Errorf("actual = %v expected = %v", err, nil)

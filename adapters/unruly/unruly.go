@@ -30,15 +30,19 @@ func (a *UnrulyAdapter) ReplaceImp(imp openrtb.Imp, request *openrtb.BidRequest)
 	return &reqCopy
 }
 
-func (a *UnrulyAdapter) BuildRequest(request *openrtb.BidRequest) (*adapters.RequestData, []error) {
+func (a *UnrulyAdapter) BuildRequest(request *openrtb.BidRequest, endpoint string) (*adapters.RequestData, []error) {
 	reqJSON, err := json.Marshal(request)
 	if err != nil {
 		return nil, []error{err}
 	}
 
+	if len(endpoint) == 0 {
+		endpoint = a.URI
+	}
+
 	return &adapters.RequestData{
 		Method:  "POST",
-		Uri:     a.URI,
+		Uri:     endpoint,
 		Body:    reqJSON,
 		Headers: AddHeadersToRequest(),
 	}, nil
@@ -56,12 +60,12 @@ func (a *UnrulyAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapt
 	var errs []error
 	var adapterRequests []*adapters.RequestData
 	for _, imp := range request.Imp {
-		impWithUnrulyExt, err := convertBidderNameInExt(&imp)
+		impWithUnrulyExt, endpoint, err := convertBidderNameInExt(&imp)
 		if err != nil {
 			errs = append(errs, err)
 		} else {
 			newRequest := a.ReplaceImp(*impWithUnrulyExt, request)
-			adapterReq, errors := a.BuildRequest(newRequest)
+			adapterReq, errors := a.BuildRequest(newRequest, endpoint)
 			if adapterReq != nil {
 				adapterRequests = append(adapterRequests, adapterReq)
 			}
@@ -115,14 +119,14 @@ func convertToAdapterBidResponse(response *adapters.ResponseData, internalReques
 	return bidResponse, errs
 }
 
-func convertBidderNameInExt(imp *openrtb.Imp) (*openrtb.Imp, error) {
+func convertBidderNameInExt(imp *openrtb.Imp) (*openrtb.Imp, string, error) {
 	var bidderExt adapters.ExtImpBidder
 	if err := json.Unmarshal(imp.Ext, &bidderExt); err != nil {
-		return nil, err
+		return nil, "", err
 	}
 	var unrulyExt openrtb_ext.ExtImpUnruly
 	if err := json.Unmarshal(bidderExt.Bidder, &unrulyExt); err != nil {
-		return nil, err
+		return nil, "", err
 	}
 	var impExtUnruly = ImpExtUnruly{Unruly: openrtb_ext.ExtImpUnruly{
 		SiteID: unrulyExt.SiteID,
@@ -130,10 +134,10 @@ func convertBidderNameInExt(imp *openrtb.Imp) (*openrtb.Imp, error) {
 	}}
 	bytes, err := json.Marshal(impExtUnruly)
 	if err != nil {
-		return nil, err
+		return nil, "", err
 	}
 	imp.Ext = bytes
-	return imp, nil
+	return imp, unrulyExt.Endpoint, nil
 }
 
 func (a *UnrulyAdapter) MakeBids(internalRequest *openrtb.BidRequest, externalRequest *adapters.RequestData, response *adapters.ResponseData) (*adapters.BidderResponse, []error) {
