@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"net"
 	"net/http"
 	"path/filepath"
 	"strings"
@@ -47,6 +48,8 @@ import (
 	"github.com/eugene-fedorenko/prebid-server/server/ssl"
 	storedRequestsConf "github.com/eugene-fedorenko/prebid-server/stored_requests/config"
 	"github.com/eugene-fedorenko/prebid-server/usersync/usersyncers"
+
+	"github.com/valyala/fasthttp"
 
 	"github.com/golang/glog"
 	"github.com/julienschmidt/httprouter"
@@ -191,8 +194,21 @@ func New(cfg *config.Configuration, rateConvertor *currency.RateConverter) (r *R
 		glog.Infof("Could not read certificates file: %s \n", readCertErr.Error())
 	}
 
+	dialer := func(ctx context.Context, network, addr string) (net.Conn, error) {
+		if dl, ok := ctx.Deadline(); ok {
+			now := time.Now()
+			if !now.Before(dl) {
+				return nil, fmt.Errorf("dialer: context deadline exceeded")
+			}
+			return fasthttp.DialDualStackTimeout(addr, dl.Sub(now))
+		}
+
+		return fasthttp.DialDualStack(addr)
+	}
+
 	generalHttpClient := &http.Client{
 		Transport: &http.Transport{
+			DialContext:         dialer,
 			MaxConnsPerHost:     cfg.Client.MaxConnsPerHost,
 			MaxIdleConns:        cfg.Client.MaxIdleConns,
 			MaxIdleConnsPerHost: cfg.Client.MaxIdleConnsPerHost,
@@ -203,6 +219,7 @@ func New(cfg *config.Configuration, rateConvertor *currency.RateConverter) (r *R
 
 	cacheHttpClient := &http.Client{
 		Transport: &http.Transport{
+			DialContext:         dialer,
 			MaxConnsPerHost:     cfg.CacheClient.MaxConnsPerHost,
 			MaxIdleConns:        cfg.CacheClient.MaxIdleConns,
 			MaxIdleConnsPerHost: cfg.CacheClient.MaxIdleConnsPerHost,
