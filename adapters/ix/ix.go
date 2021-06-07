@@ -281,11 +281,24 @@ func (a *IxAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapters.
 		"Content-Type": {"application/json;charset=utf-8"},
 		"Accept":       {"application/json"}}
 
+	var bidderExt adapters.ExtImpBidder
+	var ixExt openrtb_ext.ExtImpIx
 	imps := request.Imp
 	for iImp := range imps {
 		request.Imp = imps[iImp : iImp+1]
+
+		if err := json.Unmarshal(request.Imp[0].Ext, &bidderExt); err != nil {
+			errs = append(errs, err)
+			continue
+		}
+
+		if err := json.Unmarshal(bidderExt.Bidder, &ixExt); err != nil {
+			errs = append(errs, err)
+			continue
+		}
+
 		if request.Site != nil {
-			if err := setSitePublisherId(request, iImp); err != nil {
+			if err := setSitePublisherId(request, iImp, ixExt.SiteId); err != nil {
 				errs = append(errs, err)
 				continue
 			}
@@ -299,7 +312,7 @@ func (a *IxAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapters.
 				banner.Format = formats[iFmt : iFmt+1]
 				banner.W = openrtb.Uint64Ptr(banner.Format[0].W)
 				banner.H = openrtb.Uint64Ptr(banner.Format[0].H)
-				if requestData, err := createRequestData(a, request, &headers); err == nil {
+				if requestData, err := createRequestData(a, request, &headers, ixExt.Endpoint); err == nil {
 					if iFmt == 0 {
 						requests = append(requests, requestData)
 					} else {
@@ -312,7 +325,7 @@ func (a *IxAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapters.
 					break
 				}
 			}
-		} else if requestData, err := createRequestData(a, request, &headers); err == nil {
+		} else if requestData, err := createRequestData(a, request, &headers, ixExt.Endpoint); err == nil {
 			requests = append(requests, requestData)
 		} else {
 			errs = append(errs, err)
@@ -323,7 +336,7 @@ func (a *IxAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapters.
 	return append(requests, multiSizeRequests...), errs
 }
 
-func setSitePublisherId(request *openrtb.BidRequest, iImp int) error {
+func setSitePublisherId(request *openrtb.BidRequest, iImp int, siteId string) error {
 	if iImp == 0 {
 		// first impression - create a site and pub copy
 		site := *request.Site
@@ -336,17 +349,7 @@ func setSitePublisherId(request *openrtb.BidRequest, iImp int) error {
 		request.Site = &site
 	}
 
-	var bidderExt adapters.ExtImpBidder
-	if err := json.Unmarshal(request.Imp[0].Ext, &bidderExt); err != nil {
-		return err
-	}
-
-	var ixExt openrtb_ext.ExtImpIx
-	if err := json.Unmarshal(bidderExt.Bidder, &ixExt); err != nil {
-		return err
-	}
-
-	request.Site.Publisher.ID = ixExt.SiteId
+	request.Site.Publisher.ID = siteId
 	return nil
 }
 
@@ -357,11 +360,15 @@ func getBannerFormats(banner *openrtb.Banner) []openrtb.Format {
 	return banner.Format
 }
 
-func createRequestData(a *IxAdapter, request *openrtb.BidRequest, headers *http.Header) (*adapters.RequestData, error) {
+func createRequestData(a *IxAdapter, request *openrtb.BidRequest, headers *http.Header, endpoint string) (*adapters.RequestData, error) {
+	if endpoint == "" {
+		endpoint = a.URI
+	}
+
 	body, err := json.Marshal(request)
 	return &adapters.RequestData{
 		Method:  "POST",
-		Uri:     a.URI,
+		Uri:     endpoint,
 		Body:    body,
 		Headers: *headers,
 	}, err
