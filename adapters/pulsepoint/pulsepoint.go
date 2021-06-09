@@ -36,6 +36,7 @@ func Builder(bidderName openrtb_ext.BidderName, config config.Adapter) (adapters
 func (a *PulsePointAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapters.ExtraRequestInfo) ([]*adapters.RequestData, []error) {
 	errs := make([]error, 0, len(request.Imp))
 
+	var endpoint string
 	var err error
 	pubID := ""
 	imps := make([]openrtb.Imp, 0, len(request.Imp))
@@ -55,6 +56,11 @@ func (a *PulsePointAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *a
 			})
 			continue
 		}
+
+		if endpoint == "" {
+			endpoint = pulsepointExt.Endpoint
+		}
+
 		// parse pubid and keep it for reference
 		if pubID == "" && pulsepointExt.PubID > 0 {
 			pubID = strconv.Itoa(pulsepointExt.PubID)
@@ -98,12 +104,17 @@ func (a *PulsePointAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *a
 		errs = append(errs, err)
 		return nil, errs
 	}
+
+	if endpoint == "" {
+		endpoint = a.URI
+	}
+
 	headers := http.Header{}
 	headers.Add("Content-Type", "application/json;charset=utf-8")
 	headers.Add("Accept", "application/json")
 	return []*adapters.RequestData{{
 		Method:  "POST",
-		Uri:     a.URI,
+		Uri:     endpoint,
 		Body:    reqJSON,
 		Headers: headers,
 	}}, errs

@@ -183,6 +183,7 @@ func newAdapterBuilders() map[openrtb_ext.BidderName]adapters.Builder {
 		openrtb_ext.BidderRhythmone:        rhythmone.Builder,
 		openrtb_ext.BidderRTBHouse:         rtbhouse.Builder,
 		openrtb_ext.BidderRubicon:          rubicon.Builder,
+		openrtb_ext.BidderRubiconSpot:      rubicon.Builder,
 		openrtb_ext.BidderSharethrough:     sharethrough.Builder,
 		openrtb_ext.BidderSilverMob:        silvermob.Builder,
 		openrtb_ext.BidderSmaato:           smaato.Builder,

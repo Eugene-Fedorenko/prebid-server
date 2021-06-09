@@ -33,7 +33,10 @@ func (a *InMobiAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapt
 		}}
 	}
 
-	if err := preprocess(&request.Imp[0]); err != nil {
+	var err error
+	var endpoint string
+
+	if endpoint, err = preprocess(&request.Imp[0]); err != nil {
 		errs = append(errs, err)
 		return nil, errs
 	}
@@ -48,9 +51,13 @@ func (a *InMobiAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adapt
 	headers.Add("Content-Type", "application/json;charset=utf-8")
 	headers.Add("Accept", "application/json")
 
+	if endpoint == "" {
+		endpoint = a.endPoint
+	}
+
 	return []*adapters.RequestData{{
 		Method:  "POST",
-		Uri:     a.endPoint,
+		Uri:     endpoint,
 		Body:    reqJson,
 		Headers: headers,
 	}}, errs
@@ -87,21 +94,21 @@ func (a *InMobiAdapter) MakeBids(internalRequest *openrtb.BidRequest, externalRe
 	return bidResponse, nil
 }
 
-func preprocess(imp *openrtb.Imp) error {
+func preprocess(imp *openrtb.Imp) (string, error) {
 	var bidderExt adapters.ExtImpBidder
 	if err := json.Unmarshal(imp.Ext, &bidderExt); err != nil {
-		return &errortypes.BadInput{
+		return "", &errortypes.BadInput{
 			Message: err.Error(),
 		}
 	}
 
 	var inMobiExt openrtb_ext.ExtImpInMobi
 	if err := json.Unmarshal(bidderExt.Bidder, &inMobiExt); err != nil {
-		return &errortypes.BadInput{Message: "bad InMobi bidder ext"}
+		return "", &errortypes.BadInput{Message: "bad InMobi bidder ext"}
 	}
 
 	if len(inMobiExt.Plc) == 0 {
-		return &errortypes.BadInput{Message: "'plc' is a required attribute for InMobi's bidder ext"}
+		return "", &errortypes.BadInput{Message: "'plc' is a required attribute for InMobi's bidder ext"}
 	}
 
 	if imp.Banner != nil {
@@ -114,7 +121,7 @@ func preprocess(imp *openrtb.Imp) error {
 		}
 	}
 
-	return nil
+	return inMobiExt.Endpoint, nil
 }
 
 func getMediaTypeForImp(impId string, imps []openrtb.Imp) openrtb_ext.BidType {

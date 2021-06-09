@@ -148,6 +148,7 @@ const (
 	BidderRhythmone        BidderName = "rhythmone"
 	BidderRTBHouse         BidderName = "rtbhouse"
 	BidderRubicon          BidderName = "rubicon"
+	BidderRubiconSpot      BidderName = "rubicon_spot"
 	BidderSharethrough     BidderName = "sharethrough"
 	BidderSilverMob        BidderName = "silvermob"
 	BidderSmaato           BidderName = "smaato"
@@ -254,6 +255,7 @@ func CoreBidderNames() []BidderName {
 		BidderRhythmone,
 		BidderRTBHouse,
 		BidderRubicon,
+		BidderRubiconSpot,
 		BidderSharethrough,
 		BidderSilverMob,
 		BidderSmaato,
