@@ -822,6 +822,17 @@ func (a *RubiconAdapter) MakeRequests(request *openrtb.BidRequest, reqInfo *adap
 			thisImp.Video = &videoCopy
 			thisImp.Banner = nil
 		} else {
+			if thisImp.Banner != nil && len(thisImp.Banner.Format) == 0 {
+				thisImp.Banner.Format = append(thisImp.Banner.Format, openrtb.Format{})
+
+				if thisImp.Banner.W != nil {
+					thisImp.Banner.Format[0].W = *thisImp.Banner.W
+				}
+				if thisImp.Banner.H != nil {
+					thisImp.Banner.Format[0].H = *thisImp.Banner.H
+				}
+			}
+
 			primarySizeID, altSizeIDs, err := parseRubiconSizes(thisImp.Banner.Format)
 			if err != nil {
 				errs = append(errs, err)
